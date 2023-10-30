@@ -1,0 +1,8 @@
+{
+    "AppSyncApiName": "formaiui",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthModeLastUpdated": "2023-10-30T03:17:22.560Z",
+    "S3DeploymentBucket": "amplify-formaiui-dev-161717-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/fcef188de253209e9868eca9f6d7486dcbb6a1fe"
+}
