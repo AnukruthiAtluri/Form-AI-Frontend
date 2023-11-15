@@ -43,19 +43,40 @@
     "referencetotransformerrootstackGraphQLAPI20497F53ApiId": {
       "Type": "String"
     },
-    "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name": {
-      "Type": "String"
-    },
     "referencetotransformerrootstackS3DeploymentBucket7592718ARef": {
       "Type": "String"
     },
     "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref": {
       "Type": "String"
     },
+    "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesQuerygetResourcesauth0FunctionQuerygetResourcesauth0FunctionAppSyncFunction5AAE344AFunctionId": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId": {
+      "Type": "String"
+    },
     "referencetotransformerrootstackauthRoleNameFB872D50Ref": {
       "Type": "String"
     },
     "referencetotransformerrootstackunauthRoleName49F3C1FERef": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeMutationcreateResumeinit0FunctionMutationcreateResumeinit0FunctionAppSyncFunctionB6E420E6FunctionId": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeMutationupdateResumeinit0FunctionMutationupdateResumeinit0FunctionAppSyncFunction3615B291FunctionId": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesSubscriptiononCreateResourcesauth0FunctionSubscriptiononCreateResourcesauth0FunctionAppSyncFunction6E0E11C3FunctionId": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeSubscriptionOnCreateResumeDataResolverFnSubscriptionOnCreateResumeDataResolverFnAppSyncFunction67CC4CEDFunctionId": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesResourcesOwnerDataResolverFnResourcesOwnerDataResolverFnAppSyncFunction495F8D0DFunctionId": {
       "Type": "String"
     }
   },
@@ -358,66 +379,6 @@
         "UserProfileIAMRoleA4E2934B"
       ]
     },
-    "QuerygetUserProfileauth0FunctionQuerygetUserProfileauth0FunctionAppSyncFunctionDAD22839": {
-      "Type": "AWS::AppSync::FunctionConfiguration",
-      "Properties": {
-        "ApiId": {
-          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-        },
-        "DataSourceName": {
-          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
-        },
-        "Name": "QuerygetUserProfileauth0Function",
-        "FunctionVersion": "2018-05-29",
-        "RequestMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Query.getUserProfile.auth.1.req.vtl"
-            ]
-          ]
-        },
-        "ResponseMappingTemplate": "$util.toJson({})"
-      }
-    },
-    "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504": {
-      "Type": "AWS::AppSync::FunctionConfiguration",
-      "Properties": {
-        "ApiId": {
-          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-        },
-        "DataSourceName": {
-          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
-        },
-        "Name": "QuerygetUserProfilepostAuth0Function",
-        "FunctionVersion": "2018-05-29",
-        "RequestMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Query.getUserProfile.postAuth.1.req.vtl"
-            ]
-          ]
-        },
-        "ResponseMappingTemplate": "$util.toJson({})"
-      }
-    },
     "QueryGetUserProfileDataResolverFnQueryGetUserProfileDataResolverFnAppSyncFunction8EB8BD57": {
       "Type": "AWS::AppSync::FunctionConfiguration",
       "Properties": {
@@ -481,16 +442,10 @@
         "PipelineConfig": {
           "Functions": [
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfileauth0FunctionQuerygetUserProfileauth0FunctionAppSyncFunctionDAD22839",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesQuerygetResourcesauth0FunctionQuerygetResourcesauth0FunctionAppSyncFunction5AAE344AFunctionId"
             },
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId"
             },
             {
               "Fn::GetAtt": [
@@ -528,7 +483,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -598,16 +553,10 @@
         "PipelineConfig": {
           "Functions": [
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfileauth0FunctionQuerygetUserProfileauth0FunctionAppSyncFunctionDAD22839",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesQuerygetResourcesauth0FunctionQuerygetResourcesauth0FunctionAppSyncFunction5AAE344AFunctionId"
             },
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId"
             },
             {
               "Fn::GetAtt": [
@@ -645,41 +594,11 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
             ]
           ]
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)"
-      }
-    },
-    "MutationcreateUserProfileinit0FunctionMutationcreateUserProfileinit0FunctionAppSyncFunction7EFE9ED4": {
-      "Type": "AWS::AppSync::FunctionConfiguration",
-      "Properties": {
-        "ApiId": {
-          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-        },
-        "DataSourceName": {
-          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
-        },
-        "Name": "MutationcreateUserProfileinit0Function",
-        "FunctionVersion": "2018-05-29",
-        "RequestMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Mutation.createUserProfile.init.1.req.vtl"
-            ]
-          ]
-        },
-        "ResponseMappingTemplate": "$util.toJson({})"
       }
     },
     "MutationcreateUserProfileauth0FunctionMutationcreateUserProfileauth0FunctionAppSyncFunctionCF3841B8": {
@@ -775,10 +694,7 @@
         "PipelineConfig": {
           "Functions": [
             {
-              "Fn::GetAtt": [
-                "MutationcreateUserProfileinit0FunctionMutationcreateUserProfileinit0FunctionAppSyncFunction7EFE9ED4",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeMutationcreateResumeinit0FunctionMutationcreateResumeinit0FunctionAppSyncFunctionB6E420E6FunctionId"
             },
             {
               "Fn::GetAtt": [
@@ -787,10 +703,7 @@
               ]
             },
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId"
             },
             {
               "Fn::GetAtt": [
@@ -828,41 +741,11 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
             ]
           ]
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)"
-      }
-    },
-    "MutationupdateUserProfileinit0FunctionMutationupdateUserProfileinit0FunctionAppSyncFunction9A840BAA": {
-      "Type": "AWS::AppSync::FunctionConfiguration",
-      "Properties": {
-        "ApiId": {
-          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-        },
-        "DataSourceName": {
-          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
-        },
-        "Name": "MutationupdateUserProfileinit0Function",
-        "FunctionVersion": "2018-05-29",
-        "RequestMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Mutation.updateUserProfile.init.1.req.vtl"
-            ]
-          ]
-        },
-        "ResponseMappingTemplate": "$util.toJson({})"
       }
     },
     "MutationupdateUserProfileauth0FunctionMutationupdateUserProfileauth0FunctionAppSyncFunction7E8F945B": {
@@ -979,10 +862,7 @@
         "PipelineConfig": {
           "Functions": [
             {
-              "Fn::GetAtt": [
-                "MutationupdateUserProfileinit0FunctionMutationupdateUserProfileinit0FunctionAppSyncFunction9A840BAA",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeMutationupdateResumeinit0FunctionMutationupdateResumeinit0FunctionAppSyncFunction3615B291FunctionId"
             },
             {
               "Fn::GetAtt": [
@@ -991,10 +871,7 @@
               ]
             },
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId"
             },
             {
               "Fn::GetAtt": [
@@ -1032,7 +909,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -1159,10 +1036,7 @@
               ]
             },
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId"
             },
             {
               "Fn::GetAtt": [
@@ -1200,86 +1074,11 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
             ]
           ]
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)"
-      }
-    },
-    "SubscriptiononCreateUserProfileauth0FunctionSubscriptiononCreateUserProfileauth0FunctionAppSyncFunctionD90BBD82": {
-      "Type": "AWS::AppSync::FunctionConfiguration",
-      "Properties": {
-        "ApiId": {
-          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-        },
-        "DataSourceName": {
-          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
-        },
-        "Name": "SubscriptiononCreateUserProfileauth0Function",
-        "FunctionVersion": "2018-05-29",
-        "RequestMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Subscription.onCreateUserProfile.auth.1.req.vtl"
-            ]
-          ]
-        },
-        "ResponseMappingTemplate": "$util.toJson({})"
-      }
-    },
-    "SubscriptionOnCreateUserProfileDataResolverFnSubscriptionOnCreateUserProfileDataResolverFnAppSyncFunction08AFEB08": {
-      "Type": "AWS::AppSync::FunctionConfiguration",
-      "Properties": {
-        "ApiId": {
-          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-        },
-        "DataSourceName": {
-          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
-        },
-        "Name": "SubscriptionOnCreateUserProfileDataResolverFn",
-        "FunctionVersion": "2018-05-29",
-        "RequestMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Subscription.onCreateUserProfile.req.vtl"
-            ]
-          ]
-        },
-        "ResponseMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Subscription.onCreateUserProfile.res.vtl"
-            ]
-          ]
-        }
       }
     },
     "SubscriptiononCreateUserProfileResolver": {
@@ -1294,22 +1093,13 @@
         "PipelineConfig": {
           "Functions": [
             {
-              "Fn::GetAtt": [
-                "SubscriptiononCreateUserProfileauth0FunctionSubscriptiononCreateUserProfileauth0FunctionAppSyncFunctionD90BBD82",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesSubscriptiononCreateResourcesauth0FunctionSubscriptiononCreateResourcesauth0FunctionAppSyncFunction6E0E11C3FunctionId"
             },
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId"
             },
             {
-              "Fn::GetAtt": [
-                "SubscriptionOnCreateUserProfileDataResolverFnSubscriptionOnCreateUserProfileDataResolverFnAppSyncFunction08AFEB08",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeSubscriptionOnCreateResumeDataResolverFnSubscriptionOnCreateResumeDataResolverFnAppSyncFunction67CC4CEDFunctionId"
             }
           ]
         },
@@ -1337,7 +1127,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -1356,22 +1146,13 @@
         "PipelineConfig": {
           "Functions": [
             {
-              "Fn::GetAtt": [
-                "SubscriptiononCreateUserProfileauth0FunctionSubscriptiononCreateUserProfileauth0FunctionAppSyncFunctionD90BBD82",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesSubscriptiononCreateResourcesauth0FunctionSubscriptiononCreateResourcesauth0FunctionAppSyncFunction6E0E11C3FunctionId"
             },
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId"
             },
             {
-              "Fn::GetAtt": [
-                "SubscriptionOnCreateUserProfileDataResolverFnSubscriptionOnCreateUserProfileDataResolverFnAppSyncFunction08AFEB08",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeSubscriptionOnCreateResumeDataResolverFnSubscriptionOnCreateResumeDataResolverFnAppSyncFunction67CC4CEDFunctionId"
             }
           ]
         },
@@ -1399,7 +1180,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -1418,22 +1199,13 @@
         "PipelineConfig": {
           "Functions": [
             {
-              "Fn::GetAtt": [
-                "SubscriptiononCreateUserProfileauth0FunctionSubscriptiononCreateUserProfileauth0FunctionAppSyncFunctionD90BBD82",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesSubscriptiononCreateResourcesauth0FunctionSubscriptiononCreateResourcesauth0FunctionAppSyncFunction6E0E11C3FunctionId"
             },
             {
-              "Fn::GetAtt": [
-                "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeQuerygetResumepostAuth0FunctionQuerygetResumepostAuth0FunctionAppSyncFunction66C535BFFunctionId"
             },
             {
-              "Fn::GetAtt": [
-                "SubscriptionOnCreateUserProfileDataResolverFnSubscriptionOnCreateUserProfileDataResolverFnAppSyncFunction08AFEB08",
-                "FunctionId"
-              ]
+              "Ref": "referencetotransformerrootstackResumeNestedStackResumeNestedStackResource80BE212AOutputstransformerrootstackResumeSubscriptionOnCreateResumeDataResolverFnSubscriptionOnCreateResumeDataResolverFnAppSyncFunction67CC4CEDFunctionId"
             }
           ]
         },
@@ -1461,7 +1233,54 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)"
+      }
+    },
+    "UserProfileownerResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "FieldName": "owner",
+        "TypeName": "UserProfile",
+        "Kind": "PIPELINE",
+        "PipelineConfig": {
+          "Functions": [
+            {
+              "Ref": "referencetotransformerrootstackResourcesNestedStackResourcesNestedStackResource7B40334AOutputstransformerrootstackResourcesResourcesOwnerDataResolverFnResourcesOwnerDataResolverFnAppSyncFunction495F8D0DFunctionId"
+            }
+          ]
+        },
+        "RequestMappingTemplate": {
+          "Fn::Join": [
+            "",
+            [
+              "$util.qr($ctx.stash.put(\"typeName\", \"UserProfile\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"owner\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"NONE\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+              {
+                "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+              },
+              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":assumed-role/",
+              {
+                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
+              },
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":assumed-role/",
+              {
+                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
+              },
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"us-east-1:068c6999-589d-4271-a432-4da3dc8e8aa4\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"us-east-1_DEc9K2CoK_Full-access/CognitoIdentityCredentials\",\"us-east-1_DEc9K2CoK_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -1533,60 +1352,17 @@
         }
       }
     },
-    "transformerrootstackUserProfileQuerygetUserProfileauth0FunctionQuerygetUserProfileauth0FunctionAppSyncFunctionDB1D3C70FunctionId": {
+    "transformerrootstackUserProfileUserProfileDataSource787C2A4AName": {
       "Value": {
         "Fn::GetAtt": [
-          "QuerygetUserProfileauth0FunctionQuerygetUserProfileauth0FunctionAppSyncFunctionDAD22839",
-          "FunctionId"
+          "UserProfileDataSource",
+          "Name"
         ]
       }
     },
-    "transformerrootstackUserProfileQuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunctionF82A4E60FunctionId": {
+    "transformerrootstackUserProfileUserProfileTable5908BFAARef": {
       "Value": {
-        "Fn::GetAtt": [
-          "QuerygetUserProfilepostAuth0FunctionQuerygetUserProfilepostAuth0FunctionAppSyncFunction92890504",
-          "FunctionId"
-        ]
-      }
-    },
-    "transformerrootstackUserProfileMutationcreateUserProfileinit0FunctionMutationcreateUserProfileinit0FunctionAppSyncFunction5E6A106AFunctionId": {
-      "Value": {
-        "Fn::GetAtt": [
-          "MutationcreateUserProfileinit0FunctionMutationcreateUserProfileinit0FunctionAppSyncFunction7EFE9ED4",
-          "FunctionId"
-        ]
-      }
-    },
-    "transformerrootstackUserProfileMutationcreateUserProfileauth0FunctionMutationcreateUserProfileauth0FunctionAppSyncFunctionA0D00658FunctionId": {
-      "Value": {
-        "Fn::GetAtt": [
-          "MutationcreateUserProfileauth0FunctionMutationcreateUserProfileauth0FunctionAppSyncFunctionCF3841B8",
-          "FunctionId"
-        ]
-      }
-    },
-    "transformerrootstackUserProfileMutationupdateUserProfileinit0FunctionMutationupdateUserProfileinit0FunctionAppSyncFunction93B9F959FunctionId": {
-      "Value": {
-        "Fn::GetAtt": [
-          "MutationupdateUserProfileinit0FunctionMutationupdateUserProfileinit0FunctionAppSyncFunction9A840BAA",
-          "FunctionId"
-        ]
-      }
-    },
-    "transformerrootstackUserProfileSubscriptiononCreateUserProfileauth0FunctionSubscriptiononCreateUserProfileauth0FunctionAppSyncFunction7C4491E6FunctionId": {
-      "Value": {
-        "Fn::GetAtt": [
-          "SubscriptiononCreateUserProfileauth0FunctionSubscriptiononCreateUserProfileauth0FunctionAppSyncFunctionD90BBD82",
-          "FunctionId"
-        ]
-      }
-    },
-    "transformerrootstackUserProfileSubscriptionOnCreateUserProfileDataResolverFnSubscriptionOnCreateUserProfileDataResolverFnAppSyncFunction0C274773FunctionId": {
-      "Value": {
-        "Fn::GetAtt": [
-          "SubscriptionOnCreateUserProfileDataResolverFnSubscriptionOnCreateUserProfileDataResolverFnAppSyncFunction08AFEB08",
-          "FunctionId"
-        ]
+        "Ref": "UserProfileTable"
       }
     }
   }

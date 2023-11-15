@@ -1,93 +1,141 @@
 /* src/App.js */
-import React, { useEffect, useState } from "react";
+
+//General Imports
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FiSettings } from "react-icons/fi";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { SiFormstack } from "react-icons/si";
+
+import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
+import {
+  Dashboard,
+  ResumeBuilder,
+  Profile,
+  CVBuilder,
+  Calendar,
+  Kanban,
+  Editor,
+} from "./pages";
+import "./App.css";
+import Logo from "./assets/logo.png";
+import { useStateContext } from "./contexts/ContextProvider";
+
+//AWS imports
 import { Amplify, API, graphqlOperation } from "aws-amplify";
-import { createTodo } from "./graphql/mutations";
-import { listTodos } from "./graphql/queries";
 import {
   withAuthenticator,
-  Button,
-  Heading,
   Text,
-  TextField,
+  useTheme,
+  useAuthenticator,
   View,
 } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import Sidebar from "./components/sidebar/sidebar";
 
 import awsExports from "./aws-exports";
+import Applications from "./pages/Applications";
+import CustomQuestions from "./pages/CustomQuestions";
 Amplify.configure(awsExports);
 
-const initialState = { name: "", description: "" };
-
-const App = ({ signOut, user }) => {
-  const [formState, setFormState] = useState(initialState);
-  const [todos, setTodos] = useState([]);
+//Main APP Render
+const App = () => {
+  const { user, signOut } = useAuthenticator();
+  const {
+    setCurrentColor,
+    setCurrentMode,
+    currentMode,
+    activeMenu,
+    currentColor,
+    themeSettings,
+    setThemeSettings,
+  } = useStateContext();
 
   useEffect(() => {
-    fetchTodos();
+    const currentThemeColor = localStorage.getItem("colorMode");
+    const currentThemeMode = localStorage.getItem("themeMode");
+    if (currentThemeColor && currentThemeMode) {
+      setCurrentColor(currentThemeColor);
+      setCurrentMode(currentThemeMode);
+    }
   }, []);
 
-  function setInput(key, value) {
-    setFormState({ ...formState, [key]: value });
-  }
-
-  async function fetchTodos() {
-    try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
-      const todos = todoData.data.listTodos.items;
-      setTodos(todos);
-    } catch (err) {
-      console.log("error fetching todos");
-    }
-  }
-
-  async function addTodo() {
-    try {
-      if (!formState.name || !formState.description) return;
-      const todo = { ...formState };
-      setTodos([...todos, todo]);
-      setFormState(initialState);
-      await API.graphql(graphqlOperation(createTodo, { input: todo }));
-    } catch (err) {
-      console.log("error creating todo:", err);
-    }
+  //Name and button for testing
+  {
+    /* <Heading style={styles.container} level={1}>
+        Hello {user.username}
+      </Heading>
+      <Button style={styles.container} onClick={signOut}>
+        Sign out
+      </Button>*/
   }
 
   return (
-    <View>
-      <Sidebar />
-    <View style={styles.container}>
-      <Heading level={1}>Hello {user.username}</Heading>
-      <Button style={styles.button} onClick={signOut}>
-        Sign out
-      </Button>
-      {/* <Heading level={2}>Amplify Todos</Heading>
-      <TextField
-        placeholder="Name"
-        onChange={(event) => setInput("name", event.target.value)}
-        style={styles.input}
-        defaultValue={formState.name}
-      />
-      <TextField
-        placeholder="Description"
-        onChange={(event) => setInput("description", event.target.value)}
-        style={styles.input}
-        defaultValue={formState.description}
-      />
-      <Button style={styles.button} onClick={addTodo}>
-        Create Todo
-      </Button>
-      {todos.map((todo, index) => (
-        <View key={todo.id ? todo.id : index} style={styles.todo}>
-          <Text style={styles.todoName}>{todo.name}</Text>
-          <Text style={styles.todoDescription}>{todo.description}</Text>
-        </View>
-      ))} */}
-    </View>
-    </View>
+    <div className={currentMode === "Dark" ? "dark" : ""}>
+      <BrowserRouter>
+        <div className="flex relative dark:bg-main-dark-bg">
+          <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
+            <TooltipComponent content="Settings" position="Top">
+              <button
+                type="button"
+                onClick={() => setThemeSettings(true)}
+                style={{ background: currentColor, borderRadius: "50%" }}
+                className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
+              >
+                <FiSettings />
+              </button>
+            </TooltipComponent>
+          </div>
+          {activeMenu ? (
+            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+              <Sidebar />
+            </div>
+          ) : (
+            <div className="w-0 dark:bg-secondary-dark-bg">
+              <Sidebar />
+            </div>
+          )}
+          <div
+            className={
+              activeMenu
+                ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
+                : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
+            }
+          >
+            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
+              <Navbar />
+            </div>
+            <div>
+              {themeSettings && <ThemeSettings />}
+
+              <Routes>
+                {/* dashboard  */}
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/Dashboard" element={<Dashboard />} />
+
+                {/* applications  */}
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/applications" element={<Applications />} />
+                <Route path="/CustomQuestions" element={<CustomQuestions />} />
+
+                {/* apps  */}
+                <Route path="/kanban" element={<Kanban />} />
+                <Route path="/editor" element={<Editor />} />
+                <Route path="/calendar" element={<Calendar />} />
+
+                {/* Resume Builder  */}
+                <Route path="/ResumeBuilder" element={<ResumeBuilder />} />
+                <Route path="/CVBuilder" element={<CVBuilder />} />
+              </Routes>
+            </div>
+            <Footer />
+          </div>
+        </div>
+      </BrowserRouter>
+    </div>
   );
 };
 
+//Might not need just for Test Purposes
 const styles = {
   container: {
     width: 400,
@@ -97,23 +145,44 @@ const styles = {
     justifyContent: "center",
     padding: 20,
   },
-  todo: { marginBottom: 15 },
-  input: {
-    border: "none",
-    backgroundColor: "#ddd",
-    marginBottom: 10,
-    padding: 8,
-    fontSize: 18,
-  },
-  todoName: { fontSize: 20, fontWeight: "bold" },
-  todoDescription: { marginBottom: 0 },
-  button: {
-    backgroundColor: "black",
-    color: "white",
-    outline: "none",
-    fontSize: 18,
-    padding: "12px 0px",
+};
+
+//Login Screen Customizations
+const components = {
+  Header() {
+    const { tokens } = useTheme();
+
+    return (
+      <View
+        textAlign="center"
+        padding={tokens.space.large}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <SiFormstack
+          alt="FormAI logo"
+          style={{ width: "65px", height: "65px" }} // Control the size of the icon
+        />
+        <Text
+          style={{
+            marginLeft: tokens.space.small,
+            fontSize: "45px", // Control the size of the text
+            fontWeight: "bold", // If the text needs to be bold
+          }}
+        >
+          FormAI
+        </Text>
+      </View>
+    );
   },
 };
 
-export default withAuthenticator(App);
+const formFields = {};
+
+export default withAuthenticator(App, {
+  components,
+  formFields,
+});

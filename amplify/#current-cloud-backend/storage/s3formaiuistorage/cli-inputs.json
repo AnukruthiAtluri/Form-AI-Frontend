@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3formaiuistorage",
+  "bucketName": "formaiui-storage",
+  "policyUUID": "9af1cbd2",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

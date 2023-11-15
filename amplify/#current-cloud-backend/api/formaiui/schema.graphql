@@ -1,14 +1,57 @@
-type UserProfile @model @auth(rules: [{allow: public}]) {
+type Resume @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Resume: String
+  UserProfile: UserProfile @hasOne
+}
+
+type ExperienceDetails @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Company: String
+  Location: String
+  JobTitle: String
+  ExperienceType: String
+  StartMonth: AWSDate
+  StartYear: AWSDate
+  EndMonth: AWSDate
+  EndYear: AWSDate
+  Description: String
+  UserProfile: UserProfile @hasOne
+}
+
+type EducationDetails @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  SchoolName: String
+  Major: String
+  DegreeType: String
+  GPA: Float
+  StartMonth: AWSDate
+  StartYear: AWSDate
+  EndMonth: AWSDate
+  EndYear: AWSDate
+  UserProfile: UserProfile @hasOne
+}
+
+type Resources @model @auth(rules: [{allow: public}, {allow: private}, {allow: owner}, {allow: private, provider: iam}]) {
+  id: ID!
+  CurrentRole: String
+  UserProfile: UserProfile @hasOne
+}
+
+type PortfolioLinks @model @auth(rules: [{allow: public}, {allow: owner}, {allow: private}, {allow: private, provider: iam}]) {
+  id: ID!
+  LinkedinURL: AWSURL
+  GithubURL: AWSURL
+  PortfolioURL: String
+  OtherURL: AWSURL
+  UserProfile: UserProfile @hasOne
+}
+
+type UserProfile @model @auth(rules: [{allow: public}, {allow: owner}, {allow: private}, {allow: private, provider: iam}]) {
   id: ID!
   firstName: String
   lastName: String
   DOB: AWSDate
   phoneNumber: AWSPhone
-}
-
-type Todo @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  name: String!
-  description: String
+  Email: AWSEmail
 }
  

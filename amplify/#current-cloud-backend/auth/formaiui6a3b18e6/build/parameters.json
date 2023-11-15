@@ -6,11 +6,11 @@
   "autoVerifiedAttributes": [
     "email"
   ],
-  "mfaConfiguration": "OFF",
+  "mfaConfiguration": "OPTIONAL",
   "mfaTypes": [
-    "SMS Text Message"
+    "TOTP"
   ],
-  "smsAuthenticationMessage": "Your authentication code is {####}",
+  "smsAuthenticationMessage": "Your logfin code for FormAI is {####}",
   "smsVerificationMessage": "Your verification code is {####}",
   "emailVerificationSubject": "Your verification code for FormAI",
   "emailVerificationMessage": "Hey,\n\nYour verification code for FormAI is {####}\n\nThank You,\nFormAI",
@@ -57,5 +57,11 @@
   "adminQueries": false,
   "thirdPartyAuth": false,
   "authProviders": [],
-  "hostedUI": false
+  "hostedUI": true,
+  "hostedUIDomainName": "fkhffcvzfywn",
+  "authProvidersUserPool": [
+    "Google"
+  ],
+  "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+  "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://localhost:3000/google\",\"https://dev.dk5o9ng78c4g4.amplifyapp.com/google\"],\"LogoutURLs\":[\"https://localhost:3000/google\",\"https://dev.dk5o9ng78c4g4.amplifyapp.com/google\"]}"
 }

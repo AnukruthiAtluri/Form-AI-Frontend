@@ -23,6 +23,9 @@
           "appId": "dk5o9ng78c4g4",
           "type": "manual"
         }
+      },
+      "storage": {
+        "s3formaiuistorage": {}
       }
     }
   }

@@ -160,6 +160,12 @@
           "AppSyncApiName": "formaiui",
           "DynamoDBBillingMode": "PAY_PER_REQUEST",
           "DynamoDBEnableServerSideEncryption": false,
+          "AuthCognitoUserPoolId": {
+            "Fn::GetAtt": [
+              "authformaiui6a3b18e6",
+              "Outputs.UserPoolId"
+            ]
+          },
           "authRoleName": {
             "Ref": "AuthRoleName"
           },
@@ -167,7 +173,7 @@
             "Ref": "UnauthRoleName"
           },
           "S3DeploymentBucket": "amplify-formaiui-dev-161717-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/fcef188de253209e9868eca9f6d7486dcbb6a1fe",
+          "S3DeploymentRootKey": "amplify-appsync-files/ef5e6a2d4583c7b0cb75e82a61b8397b46d31e1c",
           "env": "dev"
         }
       }
@@ -182,9 +188,9 @@
           "resourceNameTruncated": "formai6a3b18e6",
           "userPoolName": "formaiui6a3b18e6_userpool_6a3b18e6",
           "autoVerifiedAttributes": "email",
-          "mfaConfiguration": "OFF",
-          "mfaTypes": "SMS Text Message",
-          "smsAuthenticationMessage": "Your authentication code is {####}",
+          "mfaConfiguration": "OPTIONAL",
+          "mfaTypes": "TOTP",
+          "smsAuthenticationMessage": "Your logfin code for FormAI is {####}",
           "smsVerificationMessage": "Your verification code is {####}",
           "emailVerificationSubject": "Your verification code for FormAI",
           "emailVerificationMessage": "Hey,\n\nYour verification code for FormAI is {####}\n\nThank You,\nFormAI",
@@ -225,7 +231,12 @@
           "adminQueries": false,
           "thirdPartyAuth": false,
           "authProviders": "",
-          "hostedUI": false,
+          "hostedUI": true,
+          "hostedUIDomainName": "fkhffcvzfywn",
+          "authProvidersUserPool": "Google",
+          "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+          "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://localhost:3000/google\",\"https://dev.dk5o9ng78c4g4.amplifyapp.com/google\"],\"LogoutURLs\":[\"https://localhost:3000/google\",\"https://dev.dk5o9ng78c4g4.amplifyapp.com/google\"]}",
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\"}]",
           "env": "dev"
         }
       }
@@ -237,6 +248,39 @@
         "Parameters": {
           "appId": "dk5o9ng78c4g4",
           "type": "manual",
+          "env": "dev"
+        }
+      }
+    },
+    "storages3formaiuistorage": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-formaiui-dev-161717-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "Parameters": {
+          "bucketName": "formaiui-storage",
+          "selectedGuestPermissions": "",
+          "selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+          "unauthRoleName": {
+            "Ref": "UnauthRoleName"
+          },
+          "authRoleName": {
+            "Ref": "AuthRoleName"
+          },
+          "s3PrivatePolicy": "Private_policy_9af1cbd2",
+          "s3ProtectedPolicy": "Protected_policy_9af1cbd2",
+          "s3PublicPolicy": "Public_policy_9af1cbd2",
+          "s3ReadPolicy": "read_policy_9af1cbd2",
+          "s3UploadsPolicy": "Uploads_policy_9af1cbd2",
+          "authPolicyName": "s3_amplify_9af1cbd2",
+          "unauthPolicyName": "s3_amplify_9af1cbd2",
+          "AuthenticatedAllowList": "ALLOW",
+          "GuestAllowList": "DISALLOW",
+          "s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedUploads": "s3:PutObject",
+          "s3PermissionsGuestPublic": "DISALLOW",
+          "s3PermissionsGuestUploads": "DISALLOW",
           "env": "dev"
         }
       }

@@ -1,3 +1,9 @@
+/***************************************************************************
+ * The contents of this file were generated with Amplify Studio.           *
+ * Please refrain from making any modifications to this file.              *
+ * Any changes to this file will be overwritten when running amplify pull. *
+ **************************************************************************/
+
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
@@ -20,6 +26,7 @@ export default function UserProfileCreateForm(props) {
     lastName: "",
     DOB: "",
     phoneNumber: "",
+    Email: "",
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -27,19 +34,22 @@ export default function UserProfileCreateForm(props) {
   const [phoneNumber, setPhoneNumber] = React.useState(
     initialValues.phoneNumber
   );
+  const [Email, setEmail] = React.useState(initialValues.Email);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setFirstName(initialValues.firstName);
     setLastName(initialValues.lastName);
     setDOB(initialValues.DOB);
     setPhoneNumber(initialValues.phoneNumber);
+    setEmail(initialValues.Email);
     setErrors({});
   };
   const validations = {
-    firstName: [],
-    lastName: [],
-    DOB: [],
-    phoneNumber: [{ type: "Phone" }],
+    firstName: [{ type: "Required" }],
+    lastName: [{ type: "Required" }],
+    DOB: [{ type: "Required" }],
+    phoneNumber: [{ type: "Required" }, { type: "Phone" }],
+    Email: [{ type: "Email" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -71,6 +81,7 @@ export default function UserProfileCreateForm(props) {
           lastName,
           DOB,
           phoneNumber,
+          Email,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -125,8 +136,13 @@ export default function UserProfileCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="First name"
-        isRequired={false}
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>First name</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
+        isRequired={true}
         isReadOnly={false}
         value={firstName}
         onChange={(e) => {
@@ -137,6 +153,7 @@ export default function UserProfileCreateForm(props) {
               lastName,
               DOB,
               phoneNumber,
+              Email,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -152,8 +169,13 @@ export default function UserProfileCreateForm(props) {
         {...getOverrideProps(overrides, "firstName")}
       ></TextField>
       <TextField
-        label="Last name"
-        isRequired={false}
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Last name</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
+        isRequired={true}
         isReadOnly={false}
         value={lastName}
         onChange={(e) => {
@@ -164,6 +186,7 @@ export default function UserProfileCreateForm(props) {
               lastName: value,
               DOB,
               phoneNumber,
+              Email,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -179,8 +202,13 @@ export default function UserProfileCreateForm(props) {
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
       <TextField
-        label="Dob"
-        isRequired={false}
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Dob</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
+        isRequired={true}
         isReadOnly={false}
         type="date"
         value={DOB}
@@ -192,6 +220,7 @@ export default function UserProfileCreateForm(props) {
               lastName,
               DOB: value,
               phoneNumber,
+              Email,
             };
             const result = onChange(modelFields);
             value = result?.DOB ?? value;
@@ -207,8 +236,13 @@ export default function UserProfileCreateForm(props) {
         {...getOverrideProps(overrides, "DOB")}
       ></TextField>
       <TextField
-        label="Phone number"
-        isRequired={false}
+        label={
+          <span style={{ display: "inline-flex" }}>
+            <span>Phone number</span>
+            <span style={{ color: "red" }}>*</span>
+          </span>
+        }
+        isRequired={true}
         isReadOnly={false}
         type="tel"
         value={phoneNumber}
@@ -220,6 +254,7 @@ export default function UserProfileCreateForm(props) {
               lastName,
               DOB,
               phoneNumber: value,
+              Email,
             };
             const result = onChange(modelFields);
             value = result?.phoneNumber ?? value;
@@ -233,6 +268,34 @@ export default function UserProfileCreateForm(props) {
         errorMessage={errors.phoneNumber?.errorMessage}
         hasError={errors.phoneNumber?.hasError}
         {...getOverrideProps(overrides, "phoneNumber")}
+      ></TextField>
+      <TextField
+        label="Email"
+        isRequired={false}
+        isReadOnly={false}
+        value={Email}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              DOB,
+              phoneNumber,
+              Email: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.Email ?? value;
+          }
+          if (errors.Email?.hasError) {
+            runValidationTasks("Email", value);
+          }
+          setEmail(value);
+        }}
+        onBlur={() => runValidationTasks("Email", Email)}
+        errorMessage={errors.Email?.errorMessage}
+        hasError={errors.Email?.hasError}
+        {...getOverrideProps(overrides, "Email")}
       ></TextField>
       <Flex
         justifyContent="space-between"

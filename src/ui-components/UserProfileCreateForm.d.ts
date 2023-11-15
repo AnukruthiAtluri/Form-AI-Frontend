@@ -1,3 +1,9 @@
+/***************************************************************************
+ * The contents of this file were generated with Amplify Studio.           *
+ * Please refrain from making any modifications to this file.              *
+ * Any changes to this file will be overwritten when running amplify pull. *
+ **************************************************************************/
+
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
@@ -20,12 +26,14 @@ export declare type UserProfileCreateFormInputValues = {
     lastName?: string;
     DOB?: string;
     phoneNumber?: string;
+    Email?: string;
 };
 export declare type UserProfileCreateFormValidationValues = {
     firstName?: ValidationFunction<string>;
     lastName?: ValidationFunction<string>;
     DOB?: ValidationFunction<string>;
     phoneNumber?: ValidationFunction<string>;
+    Email?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserProfileCreateFormOverridesProps = {
@@ -34,6 +42,7 @@ export declare type UserProfileCreateFormOverridesProps = {
     lastName?: PrimitiveOverrideProps<TextFieldProps>;
     DOB?: PrimitiveOverrideProps<TextFieldProps>;
     phoneNumber?: PrimitiveOverrideProps<TextFieldProps>;
+    Email?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UserProfileCreateFormProps = React.PropsWithChildren<{
     overrides?: UserProfileCreateFormOverridesProps | undefined | null;

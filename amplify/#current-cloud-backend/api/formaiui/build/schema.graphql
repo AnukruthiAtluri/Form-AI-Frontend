@@ -1,19 +1,78 @@
-type UserProfile @aws_iam @aws_api_key {
+type Resume @aws_iam @aws_api_key {
+  id: ID!
+  Resume: String
+  UserProfile: UserProfile
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  resumeUserProfileId: ID
+}
+
+type ExperienceDetails @aws_iam @aws_api_key {
+  id: ID!
+  Company: String
+  Location: String
+  JobTitle: String
+  ExperienceType: String
+  StartMonth: AWSDate
+  StartYear: AWSDate
+  EndMonth: AWSDate
+  EndYear: AWSDate
+  Description: String
+  UserProfile: UserProfile
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  experienceDetailsUserProfileId: ID
+}
+
+type EducationDetails @aws_iam @aws_api_key {
+  id: ID!
+  SchoolName: String
+  Major: String
+  DegreeType: String
+  GPA: Float
+  StartMonth: AWSDate
+  StartYear: AWSDate
+  EndMonth: AWSDate
+  EndYear: AWSDate
+  UserProfile: UserProfile
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  educationDetailsUserProfileId: ID
+}
+
+type Resources @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  CurrentRole: String
+  UserProfile: UserProfile
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  resourcesUserProfileId: ID
+  owner: String
+}
+
+type PortfolioLinks @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  LinkedinURL: AWSURL
+  GithubURL: AWSURL
+  PortfolioURL: String
+  OtherURL: AWSURL
+  UserProfile: UserProfile
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  portfolioLinksUserProfileId: ID
+  owner: String
+}
+
+type UserProfile @aws_iam @aws_cognito_user_pools @aws_api_key {
   id: ID!
   firstName: String
   lastName: String
   DOB: AWSDate
   phoneNumber: AWSPhone
+  Email: AWSEmail
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-}
-
-type Todo @aws_iam @aws_api_key {
-  id: ID!
-  name: String!
-  description: String
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
+  owner: String
 }
 
 input ModelStringInput {
@@ -166,7 +225,379 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelUserProfileConnection @aws_api_key @aws_iam {
+type ModelResumeConnection @aws_api_key @aws_iam {
+  items: [Resume]!
+  nextToken: String
+}
+
+input ModelResumeFilterInput {
+  id: ModelIDInput
+  Resume: ModelStringInput
+  and: [ModelResumeFilterInput]
+  or: [ModelResumeFilterInput]
+  not: ModelResumeFilterInput
+  resumeUserProfileId: ModelIDInput
+}
+
+type Query {
+  getResume(id: ID!): Resume @aws_api_key @aws_iam
+  listResumes(filter: ModelResumeFilterInput, limit: Int, nextToken: String): ModelResumeConnection @aws_api_key @aws_iam
+  getExperienceDetails(id: ID!): ExperienceDetails @aws_api_key @aws_iam
+  listExperienceDetails(filter: ModelExperienceDetailsFilterInput, limit: Int, nextToken: String): ModelExperienceDetailsConnection @aws_api_key @aws_iam
+  getEducationDetails(id: ID!): EducationDetails @aws_api_key @aws_iam
+  listEducationDetails(filter: ModelEducationDetailsFilterInput, limit: Int, nextToken: String): ModelEducationDetailsConnection @aws_api_key @aws_iam
+  getResources(id: ID!): Resources @aws_api_key @aws_iam @aws_cognito_user_pools
+  listResources(filter: ModelResourcesFilterInput, limit: Int, nextToken: String): ModelResourcesConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  getPortfolioLinks(id: ID!): PortfolioLinks @aws_api_key @aws_iam @aws_cognito_user_pools
+  listPortfolioLinks(filter: ModelPortfolioLinksFilterInput, limit: Int, nextToken: String): ModelPortfolioLinksConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  getUserProfile(id: ID!): UserProfile @aws_api_key @aws_iam @aws_cognito_user_pools
+  listUserProfiles(filter: ModelUserProfileFilterInput, limit: Int, nextToken: String): ModelUserProfileConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+input ModelResumeConditionInput {
+  Resume: ModelStringInput
+  and: [ModelResumeConditionInput]
+  or: [ModelResumeConditionInput]
+  not: ModelResumeConditionInput
+  resumeUserProfileId: ModelIDInput
+}
+
+input CreateResumeInput {
+  id: ID
+  Resume: String
+  resumeUserProfileId: ID
+}
+
+input UpdateResumeInput {
+  id: ID!
+  Resume: String
+  resumeUserProfileId: ID
+}
+
+input DeleteResumeInput {
+  id: ID!
+}
+
+type Mutation {
+  createResume(input: CreateResumeInput!, condition: ModelResumeConditionInput): Resume @aws_api_key @aws_iam
+  updateResume(input: UpdateResumeInput!, condition: ModelResumeConditionInput): Resume @aws_api_key @aws_iam
+  deleteResume(input: DeleteResumeInput!, condition: ModelResumeConditionInput): Resume @aws_api_key @aws_iam
+  createExperienceDetails(input: CreateExperienceDetailsInput!, condition: ModelExperienceDetailsConditionInput): ExperienceDetails @aws_api_key @aws_iam
+  updateExperienceDetails(input: UpdateExperienceDetailsInput!, condition: ModelExperienceDetailsConditionInput): ExperienceDetails @aws_api_key @aws_iam
+  deleteExperienceDetails(input: DeleteExperienceDetailsInput!, condition: ModelExperienceDetailsConditionInput): ExperienceDetails @aws_api_key @aws_iam
+  createEducationDetails(input: CreateEducationDetailsInput!, condition: ModelEducationDetailsConditionInput): EducationDetails @aws_api_key @aws_iam
+  updateEducationDetails(input: UpdateEducationDetailsInput!, condition: ModelEducationDetailsConditionInput): EducationDetails @aws_api_key @aws_iam
+  deleteEducationDetails(input: DeleteEducationDetailsInput!, condition: ModelEducationDetailsConditionInput): EducationDetails @aws_api_key @aws_iam
+  createResources(input: CreateResourcesInput!, condition: ModelResourcesConditionInput): Resources @aws_api_key @aws_iam @aws_cognito_user_pools
+  updateResources(input: UpdateResourcesInput!, condition: ModelResourcesConditionInput): Resources @aws_api_key @aws_iam @aws_cognito_user_pools
+  deleteResources(input: DeleteResourcesInput!, condition: ModelResourcesConditionInput): Resources @aws_api_key @aws_iam @aws_cognito_user_pools
+  createPortfolioLinks(input: CreatePortfolioLinksInput!, condition: ModelPortfolioLinksConditionInput): PortfolioLinks @aws_api_key @aws_iam @aws_cognito_user_pools
+  updatePortfolioLinks(input: UpdatePortfolioLinksInput!, condition: ModelPortfolioLinksConditionInput): PortfolioLinks @aws_api_key @aws_iam @aws_cognito_user_pools
+  deletePortfolioLinks(input: DeletePortfolioLinksInput!, condition: ModelPortfolioLinksConditionInput): PortfolioLinks @aws_api_key @aws_iam @aws_cognito_user_pools
+  createUserProfile(input: CreateUserProfileInput!, condition: ModelUserProfileConditionInput): UserProfile @aws_api_key @aws_iam @aws_cognito_user_pools
+  updateUserProfile(input: UpdateUserProfileInput!, condition: ModelUserProfileConditionInput): UserProfile @aws_api_key @aws_iam @aws_cognito_user_pools
+  deleteUserProfile(input: DeleteUserProfileInput!, condition: ModelUserProfileConditionInput): UserProfile @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+input ModelSubscriptionResumeFilterInput {
+  id: ModelSubscriptionIDInput
+  Resume: ModelSubscriptionStringInput
+  and: [ModelSubscriptionResumeFilterInput]
+  or: [ModelSubscriptionResumeFilterInput]
+}
+
+type Subscription {
+  onCreateResume(filter: ModelSubscriptionResumeFilterInput): Resume @aws_subscribe(mutations: ["createResume"]) @aws_api_key @aws_iam
+  onUpdateResume(filter: ModelSubscriptionResumeFilterInput): Resume @aws_subscribe(mutations: ["updateResume"]) @aws_api_key @aws_iam
+  onDeleteResume(filter: ModelSubscriptionResumeFilterInput): Resume @aws_subscribe(mutations: ["deleteResume"]) @aws_api_key @aws_iam
+  onCreateExperienceDetails(filter: ModelSubscriptionExperienceDetailsFilterInput): ExperienceDetails @aws_subscribe(mutations: ["createExperienceDetails"]) @aws_api_key @aws_iam
+  onUpdateExperienceDetails(filter: ModelSubscriptionExperienceDetailsFilterInput): ExperienceDetails @aws_subscribe(mutations: ["updateExperienceDetails"]) @aws_api_key @aws_iam
+  onDeleteExperienceDetails(filter: ModelSubscriptionExperienceDetailsFilterInput): ExperienceDetails @aws_subscribe(mutations: ["deleteExperienceDetails"]) @aws_api_key @aws_iam
+  onCreateEducationDetails(filter: ModelSubscriptionEducationDetailsFilterInput): EducationDetails @aws_subscribe(mutations: ["createEducationDetails"]) @aws_api_key @aws_iam
+  onUpdateEducationDetails(filter: ModelSubscriptionEducationDetailsFilterInput): EducationDetails @aws_subscribe(mutations: ["updateEducationDetails"]) @aws_api_key @aws_iam
+  onDeleteEducationDetails(filter: ModelSubscriptionEducationDetailsFilterInput): EducationDetails @aws_subscribe(mutations: ["deleteEducationDetails"]) @aws_api_key @aws_iam
+  onCreateResources(filter: ModelSubscriptionResourcesFilterInput, owner: String): Resources @aws_subscribe(mutations: ["createResources"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdateResources(filter: ModelSubscriptionResourcesFilterInput, owner: String): Resources @aws_subscribe(mutations: ["updateResources"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeleteResources(filter: ModelSubscriptionResourcesFilterInput, owner: String): Resources @aws_subscribe(mutations: ["deleteResources"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreatePortfolioLinks(filter: ModelSubscriptionPortfolioLinksFilterInput, owner: String): PortfolioLinks @aws_subscribe(mutations: ["createPortfolioLinks"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdatePortfolioLinks(filter: ModelSubscriptionPortfolioLinksFilterInput, owner: String): PortfolioLinks @aws_subscribe(mutations: ["updatePortfolioLinks"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeletePortfolioLinks(filter: ModelSubscriptionPortfolioLinksFilterInput, owner: String): PortfolioLinks @aws_subscribe(mutations: ["deletePortfolioLinks"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreateUserProfile(filter: ModelSubscriptionUserProfileFilterInput, owner: String): UserProfile @aws_subscribe(mutations: ["createUserProfile"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdateUserProfile(filter: ModelSubscriptionUserProfileFilterInput, owner: String): UserProfile @aws_subscribe(mutations: ["updateUserProfile"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeleteUserProfile(filter: ModelSubscriptionUserProfileFilterInput, owner: String): UserProfile @aws_subscribe(mutations: ["deleteUserProfile"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+type ModelExperienceDetailsConnection @aws_api_key @aws_iam {
+  items: [ExperienceDetails]!
+  nextToken: String
+}
+
+input ModelExperienceDetailsFilterInput {
+  id: ModelIDInput
+  Company: ModelStringInput
+  Location: ModelStringInput
+  JobTitle: ModelStringInput
+  ExperienceType: ModelStringInput
+  StartMonth: ModelStringInput
+  StartYear: ModelStringInput
+  EndMonth: ModelStringInput
+  EndYear: ModelStringInput
+  Description: ModelStringInput
+  and: [ModelExperienceDetailsFilterInput]
+  or: [ModelExperienceDetailsFilterInput]
+  not: ModelExperienceDetailsFilterInput
+  experienceDetailsUserProfileId: ModelIDInput
+}
+
+input ModelExperienceDetailsConditionInput {
+  Company: ModelStringInput
+  Location: ModelStringInput
+  JobTitle: ModelStringInput
+  ExperienceType: ModelStringInput
+  StartMonth: ModelStringInput
+  StartYear: ModelStringInput
+  EndMonth: ModelStringInput
+  EndYear: ModelStringInput
+  Description: ModelStringInput
+  and: [ModelExperienceDetailsConditionInput]
+  or: [ModelExperienceDetailsConditionInput]
+  not: ModelExperienceDetailsConditionInput
+  experienceDetailsUserProfileId: ModelIDInput
+}
+
+input CreateExperienceDetailsInput {
+  id: ID
+  Company: String
+  Location: String
+  JobTitle: String
+  ExperienceType: String
+  StartMonth: AWSDate
+  StartYear: AWSDate
+  EndMonth: AWSDate
+  EndYear: AWSDate
+  Description: String
+  experienceDetailsUserProfileId: ID
+}
+
+input UpdateExperienceDetailsInput {
+  id: ID!
+  Company: String
+  Location: String
+  JobTitle: String
+  ExperienceType: String
+  StartMonth: AWSDate
+  StartYear: AWSDate
+  EndMonth: AWSDate
+  EndYear: AWSDate
+  Description: String
+  experienceDetailsUserProfileId: ID
+}
+
+input DeleteExperienceDetailsInput {
+  id: ID!
+}
+
+input ModelSubscriptionExperienceDetailsFilterInput {
+  id: ModelSubscriptionIDInput
+  Company: ModelSubscriptionStringInput
+  Location: ModelSubscriptionStringInput
+  JobTitle: ModelSubscriptionStringInput
+  ExperienceType: ModelSubscriptionStringInput
+  StartMonth: ModelSubscriptionStringInput
+  StartYear: ModelSubscriptionStringInput
+  EndMonth: ModelSubscriptionStringInput
+  EndYear: ModelSubscriptionStringInput
+  Description: ModelSubscriptionStringInput
+  and: [ModelSubscriptionExperienceDetailsFilterInput]
+  or: [ModelSubscriptionExperienceDetailsFilterInput]
+}
+
+type ModelEducationDetailsConnection @aws_api_key @aws_iam {
+  items: [EducationDetails]!
+  nextToken: String
+}
+
+input ModelEducationDetailsFilterInput {
+  id: ModelIDInput
+  SchoolName: ModelStringInput
+  Major: ModelStringInput
+  DegreeType: ModelStringInput
+  GPA: ModelFloatInput
+  StartMonth: ModelStringInput
+  StartYear: ModelStringInput
+  EndMonth: ModelStringInput
+  EndYear: ModelStringInput
+  and: [ModelEducationDetailsFilterInput]
+  or: [ModelEducationDetailsFilterInput]
+  not: ModelEducationDetailsFilterInput
+  educationDetailsUserProfileId: ModelIDInput
+}
+
+input ModelEducationDetailsConditionInput {
+  SchoolName: ModelStringInput
+  Major: ModelStringInput
+  DegreeType: ModelStringInput
+  GPA: ModelFloatInput
+  StartMonth: ModelStringInput
+  StartYear: ModelStringInput
+  EndMonth: ModelStringInput
+  EndYear: ModelStringInput
+  and: [ModelEducationDetailsConditionInput]
+  or: [ModelEducationDetailsConditionInput]
+  not: ModelEducationDetailsConditionInput
+  educationDetailsUserProfileId: ModelIDInput
+}
+
+input CreateEducationDetailsInput {
+  id: ID
+  SchoolName: String
+  Major: String
+  DegreeType: String
+  GPA: Float
+  StartMonth: AWSDate
+  StartYear: AWSDate
+  EndMonth: AWSDate
+  EndYear: AWSDate
+  educationDetailsUserProfileId: ID
+}
+
+input UpdateEducationDetailsInput {
+  id: ID!
+  SchoolName: String
+  Major: String
+  DegreeType: String
+  GPA: Float
+  StartMonth: AWSDate
+  StartYear: AWSDate
+  EndMonth: AWSDate
+  EndYear: AWSDate
+  educationDetailsUserProfileId: ID
+}
+
+input DeleteEducationDetailsInput {
+  id: ID!
+}
+
+input ModelSubscriptionEducationDetailsFilterInput {
+  id: ModelSubscriptionIDInput
+  SchoolName: ModelSubscriptionStringInput
+  Major: ModelSubscriptionStringInput
+  DegreeType: ModelSubscriptionStringInput
+  GPA: ModelSubscriptionFloatInput
+  StartMonth: ModelSubscriptionStringInput
+  StartYear: ModelSubscriptionStringInput
+  EndMonth: ModelSubscriptionStringInput
+  EndYear: ModelSubscriptionStringInput
+  and: [ModelSubscriptionEducationDetailsFilterInput]
+  or: [ModelSubscriptionEducationDetailsFilterInput]
+}
+
+type ModelResourcesConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
+  items: [Resources]!
+  nextToken: String
+}
+
+input ModelResourcesFilterInput {
+  id: ModelIDInput
+  CurrentRole: ModelStringInput
+  and: [ModelResourcesFilterInput]
+  or: [ModelResourcesFilterInput]
+  not: ModelResourcesFilterInput
+  resourcesUserProfileId: ModelIDInput
+}
+
+input ModelResourcesConditionInput {
+  CurrentRole: ModelStringInput
+  and: [ModelResourcesConditionInput]
+  or: [ModelResourcesConditionInput]
+  not: ModelResourcesConditionInput
+  resourcesUserProfileId: ModelIDInput
+}
+
+input CreateResourcesInput {
+  id: ID
+  CurrentRole: String
+  resourcesUserProfileId: ID
+}
+
+input UpdateResourcesInput {
+  id: ID!
+  CurrentRole: String
+  resourcesUserProfileId: ID
+}
+
+input DeleteResourcesInput {
+  id: ID!
+}
+
+input ModelSubscriptionResourcesFilterInput {
+  id: ModelSubscriptionIDInput
+  CurrentRole: ModelSubscriptionStringInput
+  and: [ModelSubscriptionResourcesFilterInput]
+  or: [ModelSubscriptionResourcesFilterInput]
+}
+
+type ModelPortfolioLinksConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
+  items: [PortfolioLinks]!
+  nextToken: String
+}
+
+input ModelPortfolioLinksFilterInput {
+  id: ModelIDInput
+  LinkedinURL: ModelStringInput
+  GithubURL: ModelStringInput
+  PortfolioURL: ModelStringInput
+  OtherURL: ModelStringInput
+  and: [ModelPortfolioLinksFilterInput]
+  or: [ModelPortfolioLinksFilterInput]
+  not: ModelPortfolioLinksFilterInput
+  portfolioLinksUserProfileId: ModelIDInput
+}
+
+input ModelPortfolioLinksConditionInput {
+  LinkedinURL: ModelStringInput
+  GithubURL: ModelStringInput
+  PortfolioURL: ModelStringInput
+  OtherURL: ModelStringInput
+  and: [ModelPortfolioLinksConditionInput]
+  or: [ModelPortfolioLinksConditionInput]
+  not: ModelPortfolioLinksConditionInput
+  portfolioLinksUserProfileId: ModelIDInput
+}
+
+input CreatePortfolioLinksInput {
+  id: ID
+  LinkedinURL: AWSURL
+  GithubURL: AWSURL
+  PortfolioURL: String
+  OtherURL: AWSURL
+  portfolioLinksUserProfileId: ID
+}
+
+input UpdatePortfolioLinksInput {
+  id: ID!
+  LinkedinURL: AWSURL
+  GithubURL: AWSURL
+  PortfolioURL: String
+  OtherURL: AWSURL
+  portfolioLinksUserProfileId: ID
+}
+
+input DeletePortfolioLinksInput {
+  id: ID!
+}
+
+input ModelSubscriptionPortfolioLinksFilterInput {
+  id: ModelSubscriptionIDInput
+  LinkedinURL: ModelSubscriptionStringInput
+  GithubURL: ModelSubscriptionStringInput
+  PortfolioURL: ModelSubscriptionStringInput
+  OtherURL: ModelSubscriptionStringInput
+  and: [ModelSubscriptionPortfolioLinksFilterInput]
+  or: [ModelSubscriptionPortfolioLinksFilterInput]
+}
+
+type ModelUserProfileConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   items: [UserProfile]!
   nextToken: String
 }
@@ -177,16 +608,10 @@ input ModelUserProfileFilterInput {
   lastName: ModelStringInput
   DOB: ModelStringInput
   phoneNumber: ModelStringInput
+  Email: ModelStringInput
   and: [ModelUserProfileFilterInput]
   or: [ModelUserProfileFilterInput]
   not: ModelUserProfileFilterInput
-}
-
-type Query {
-  getUserProfile(id: ID!): UserProfile @aws_api_key @aws_iam
-  listUserProfiles(filter: ModelUserProfileFilterInput, limit: Int, nextToken: String): ModelUserProfileConnection @aws_api_key @aws_iam
-  getTodo(id: ID!): Todo @aws_api_key @aws_iam
-  listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection @aws_api_key @aws_iam
 }
 
 input ModelUserProfileConditionInput {
@@ -194,6 +619,7 @@ input ModelUserProfileConditionInput {
   lastName: ModelStringInput
   DOB: ModelStringInput
   phoneNumber: ModelStringInput
+  Email: ModelStringInput
   and: [ModelUserProfileConditionInput]
   or: [ModelUserProfileConditionInput]
   not: ModelUserProfileConditionInput
@@ -205,6 +631,7 @@ input CreateUserProfileInput {
   lastName: String
   DOB: AWSDate
   phoneNumber: AWSPhone
+  Email: AWSEmail
 }
 
 input UpdateUserProfileInput {
@@ -213,19 +640,11 @@ input UpdateUserProfileInput {
   lastName: String
   DOB: AWSDate
   phoneNumber: AWSPhone
+  Email: AWSEmail
 }
 
 input DeleteUserProfileInput {
   id: ID!
-}
-
-type Mutation {
-  createUserProfile(input: CreateUserProfileInput!, condition: ModelUserProfileConditionInput): UserProfile @aws_api_key @aws_iam
-  updateUserProfile(input: UpdateUserProfileInput!, condition: ModelUserProfileConditionInput): UserProfile @aws_api_key @aws_iam
-  deleteUserProfile(input: DeleteUserProfileInput!, condition: ModelUserProfileConditionInput): UserProfile @aws_api_key @aws_iam
-  createTodo(input: CreateTodoInput!, condition: ModelTodoConditionInput): Todo @aws_api_key @aws_iam
-  updateTodo(input: UpdateTodoInput!, condition: ModelTodoConditionInput): Todo @aws_api_key @aws_iam
-  deleteTodo(input: DeleteTodoInput!, condition: ModelTodoConditionInput): Todo @aws_api_key @aws_iam
 }
 
 input ModelSubscriptionUserProfileFilterInput {
@@ -234,61 +653,7 @@ input ModelSubscriptionUserProfileFilterInput {
   lastName: ModelSubscriptionStringInput
   DOB: ModelSubscriptionStringInput
   phoneNumber: ModelSubscriptionStringInput
+  Email: ModelSubscriptionStringInput
   and: [ModelSubscriptionUserProfileFilterInput]
   or: [ModelSubscriptionUserProfileFilterInput]
-}
-
-type Subscription {
-  onCreateUserProfile(filter: ModelSubscriptionUserProfileFilterInput): UserProfile @aws_subscribe(mutations: ["createUserProfile"]) @aws_api_key @aws_iam
-  onUpdateUserProfile(filter: ModelSubscriptionUserProfileFilterInput): UserProfile @aws_subscribe(mutations: ["updateUserProfile"]) @aws_api_key @aws_iam
-  onDeleteUserProfile(filter: ModelSubscriptionUserProfileFilterInput): UserProfile @aws_subscribe(mutations: ["deleteUserProfile"]) @aws_api_key @aws_iam
-  onCreateTodo(filter: ModelSubscriptionTodoFilterInput): Todo @aws_subscribe(mutations: ["createTodo"]) @aws_api_key @aws_iam
-  onUpdateTodo(filter: ModelSubscriptionTodoFilterInput): Todo @aws_subscribe(mutations: ["updateTodo"]) @aws_api_key @aws_iam
-  onDeleteTodo(filter: ModelSubscriptionTodoFilterInput): Todo @aws_subscribe(mutations: ["deleteTodo"]) @aws_api_key @aws_iam
-}
-
-type ModelTodoConnection @aws_api_key @aws_iam {
-  items: [Todo]!
-  nextToken: String
-}
-
-input ModelTodoFilterInput {
-  id: ModelIDInput
-  name: ModelStringInput
-  description: ModelStringInput
-  and: [ModelTodoFilterInput]
-  or: [ModelTodoFilterInput]
-  not: ModelTodoFilterInput
-}
-
-input ModelTodoConditionInput {
-  name: ModelStringInput
-  description: ModelStringInput
-  and: [ModelTodoConditionInput]
-  or: [ModelTodoConditionInput]
-  not: ModelTodoConditionInput
-}
-
-input CreateTodoInput {
-  id: ID
-  name: String!
-  description: String
-}
-
-input UpdateTodoInput {
-  id: ID!
-  name: String
-  description: String
-}
-
-input DeleteTodoInput {
-  id: ID!
-}
-
-input ModelSubscriptionTodoFilterInput {
-  id: ModelSubscriptionIDInput
-  name: ModelSubscriptionStringInput
-  description: ModelSubscriptionStringInput
-  and: [ModelSubscriptionTodoFilterInput]
-  or: [ModelSubscriptionTodoFilterInput]
 }
