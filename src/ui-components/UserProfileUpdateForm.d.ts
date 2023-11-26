@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { UserProfile } from "../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -48,7 +49,7 @@ export declare type UserProfileUpdateFormProps = React.PropsWithChildren<{
     overrides?: UserProfileUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    userProfile?: any;
+    userProfile?: UserProfile;
     onSubmit?: (fields: UserProfileUpdateFormInputValues) => UserProfileUpdateFormInputValues;
     onSuccess?: (fields: UserProfileUpdateFormInputValues) => void;
     onError?: (fields: UserProfileUpdateFormInputValues, errorMessage: string) => void;

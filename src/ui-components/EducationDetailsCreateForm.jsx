@@ -19,10 +19,14 @@ import {
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { listUserProfiles } from "../graphql/queries";
-import { createEducationDetails } from "../graphql/mutations";
+import { EducationDetails, UserProfile as UserProfile0 } from "../models";
+import {
+  fetchByPath,
+  getOverrideProps,
+  useDataStoreBinding,
+  validateField,
+} from "./utils";
+import { DataStore } from "aws-amplify";
 function ArrayField({
   items = [],
   onChange,
@@ -211,9 +215,6 @@ export default function EducationDetailsCreateForm(props) {
   const [UserProfile, setUserProfile] = React.useState(
     initialValues.UserProfile
   );
-  const [UserProfileLoading, setUserProfileLoading] = React.useState(false);
-  const [UserProfileRecords, setUserProfileRecords] = React.useState([]);
-  const autocompleteLength = 10;
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setSchoolName(initialValues.SchoolName);
@@ -242,6 +243,10 @@ export default function EducationDetailsCreateForm(props) {
       ? UserProfile.map((r) => getIDValue.UserProfile?.(r))
       : getIDValue.UserProfile?.(UserProfile)
   );
+  const userProfileRecords = useDataStoreBinding({
+    type: "collection",
+    model: UserProfile0,
+  }).items;
   const getDisplayValue = {
     UserProfile: (r) => `${r?.firstName ? r?.firstName + " - " : ""}${r?.id}`,
   };
@@ -273,38 +278,6 @@ export default function EducationDetailsCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const fetchUserProfileRecords = async (value) => {
-    setUserProfileLoading(true);
-    const newOptions = [];
-    let newNext = "";
-    while (newOptions.length < autocompleteLength && newNext != null) {
-      const variables = {
-        limit: autocompleteLength * 5,
-        filter: {
-          or: [{ firstName: { contains: value } }, { id: { contains: value } }],
-        },
-      };
-      if (newNext) {
-        variables["nextToken"] = newNext;
-      }
-      const result = (
-        await API.graphql({
-          query: listUserProfiles.replaceAll("__typename", ""),
-          variables,
-        })
-      )?.data?.listUserProfiles?.items;
-      var loaded = result.filter(
-        (item) => !UserProfileIdSet.has(getIDValue.UserProfile?.(item))
-      );
-      newOptions.push(...loaded);
-      newNext = result.nextToken;
-    }
-    setUserProfileRecords(newOptions.slice(0, autocompleteLength));
-    setUserProfileLoading(false);
-  };
-  React.useEffect(() => {
-    fetchUserProfileRecords("");
-  }, []);
   return (
     <Grid
       as="form"
@@ -360,25 +333,7 @@ export default function EducationDetailsCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          const modelFieldsToSave = {
-            SchoolName: modelFields.SchoolName,
-            Major: modelFields.Major,
-            DegreeType: modelFields.DegreeType,
-            GPA: modelFields.GPA,
-            StartMonth: modelFields.StartMonth,
-            StartYear: modelFields.StartYear,
-            EndMonth: modelFields.EndMonth,
-            EndYear: modelFields.EndYear,
-            educationDetailsUserProfileId: modelFields?.UserProfile?.id,
-          };
-          await API.graphql({
-            query: createEducationDetails.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                ...modelFieldsToSave,
-              },
-            },
-          });
+          await DataStore.save(new EducationDetails(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -387,8 +342,7 @@ export default function EducationDetailsCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
@@ -706,16 +660,15 @@ export default function EducationDetailsCreateForm(props) {
           isReadOnly={false}
           placeholder="Search UserProfile"
           value={currentUserProfileDisplayValue}
-          options={UserProfileRecords.filter(
-            (r) => !UserProfileIdSet.has(getIDValue.UserProfile?.(r))
-          ).map((r) => ({
-            id: getIDValue.UserProfile?.(r),
-            label: getDisplayValue.UserProfile?.(r),
-          }))}
-          isLoading={UserProfileLoading}
+          options={userProfileRecords
+            .filter((r) => !UserProfileIdSet.has(getIDValue.UserProfile?.(r)))
+            .map((r) => ({
+              id: getIDValue.UserProfile?.(r),
+              label: getDisplayValue.UserProfile?.(r),
+            }))}
           onSelect={({ id, label }) => {
             setCurrentUserProfileValue(
-              UserProfileRecords.find((r) =>
+              userProfileRecords.find((r) =>
                 Object.entries(JSON.parse(id)).every(
                   ([key, value]) => r[key] === value
                 )
@@ -729,7 +682,6 @@ export default function EducationDetailsCreateForm(props) {
           }}
           onChange={(e) => {
             let { value } = e.target;
-            fetchUserProfileRecords(value);
             if (errors.UserProfile?.hasError) {
               runValidationTasks("UserProfile", value);
             }

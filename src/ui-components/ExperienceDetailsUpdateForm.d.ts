@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { GridProps, SelectFieldProps, TextAreaFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { ExperienceDetails } from "../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -60,7 +61,7 @@ export declare type ExperienceDetailsUpdateFormProps = React.PropsWithChildren<{
     overrides?: ExperienceDetailsUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    experienceDetails?: any;
+    experienceDetails?: ExperienceDetails;
     onSubmit?: (fields: ExperienceDetailsUpdateFormInputValues) => ExperienceDetailsUpdateFormInputValues;
     onSuccess?: (fields: ExperienceDetailsUpdateFormInputValues) => void;
     onError?: (fields: ExperienceDetailsUpdateFormInputValues, errorMessage: string) => void;

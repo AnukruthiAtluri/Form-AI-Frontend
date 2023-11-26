@@ -19,10 +19,14 @@ import {
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { getEducationDetails, listUserProfiles } from "../graphql/queries";
-import { updateEducationDetails } from "../graphql/mutations";
+import { EducationDetails, UserProfile as UserProfile0 } from "../models";
+import {
+  fetchByPath,
+  getOverrideProps,
+  useDataStoreBinding,
+  validateField,
+} from "./utils";
+import { DataStore } from "aws-amplify";
 function ArrayField({
   items = [],
   onChange,
@@ -212,9 +216,6 @@ export default function EducationDetailsUpdateForm(props) {
   const [UserProfile, setUserProfile] = React.useState(
     initialValues.UserProfile
   );
-  const [UserProfileLoading, setUserProfileLoading] = React.useState(false);
-  const [UserProfileRecords, setUserProfileRecords] = React.useState([]);
-  const autocompleteLength = 10;
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = educationDetailsRecord
@@ -239,16 +240,11 @@ export default function EducationDetailsUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await API.graphql({
-              query: getEducationDetails.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getEducationDetails
+        ? await DataStore.query(EducationDetails, idProp)
         : educationDetailsModelProp;
+      setEducationDetailsRecord(record);
       const UserProfileRecord = record ? await record.UserProfile : undefined;
       setUserProfile(UserProfileRecord);
-      setEducationDetailsRecord(record);
     };
     queryData();
   }, [idProp, educationDetailsModelProp]);
@@ -266,6 +262,10 @@ export default function EducationDetailsUpdateForm(props) {
       ? UserProfile.map((r) => getIDValue.UserProfile?.(r))
       : getIDValue.UserProfile?.(UserProfile)
   );
+  const userProfileRecords = useDataStoreBinding({
+    type: "collection",
+    model: UserProfile0,
+  }).items;
   const getDisplayValue = {
     UserProfile: (r) => `${r?.firstName ? r?.firstName + " - " : ""}${r?.id}`,
   };
@@ -297,38 +297,6 @@ export default function EducationDetailsUpdateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const fetchUserProfileRecords = async (value) => {
-    setUserProfileLoading(true);
-    const newOptions = [];
-    let newNext = "";
-    while (newOptions.length < autocompleteLength && newNext != null) {
-      const variables = {
-        limit: autocompleteLength * 5,
-        filter: {
-          or: [{ firstName: { contains: value } }, { id: { contains: value } }],
-        },
-      };
-      if (newNext) {
-        variables["nextToken"] = newNext;
-      }
-      const result = (
-        await API.graphql({
-          query: listUserProfiles.replaceAll("__typename", ""),
-          variables,
-        })
-      )?.data?.listUserProfiles?.items;
-      var loaded = result.filter(
-        (item) => !UserProfileIdSet.has(getIDValue.UserProfile?.(item))
-      );
-      newOptions.push(...loaded);
-      newNext = result.nextToken;
-    }
-    setUserProfileRecords(newOptions.slice(0, autocompleteLength));
-    setUserProfileLoading(false);
-  };
-  React.useEffect(() => {
-    fetchUserProfileRecords("");
-  }, []);
   return (
     <Grid
       as="form"
@@ -338,15 +306,15 @@ export default function EducationDetailsUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          SchoolName: SchoolName ?? null,
-          Major: Major ?? null,
-          DegreeType: DegreeType ?? null,
-          GPA: GPA ?? null,
-          StartMonth: StartMonth ?? null,
-          StartYear: StartYear ?? null,
-          EndMonth: EndMonth ?? null,
-          EndYear: EndYear ?? null,
-          UserProfile: UserProfile ?? null,
+          SchoolName,
+          Major,
+          DegreeType,
+          GPA,
+          StartMonth,
+          StartYear,
+          EndMonth,
+          EndYear,
+          UserProfile,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -384,33 +352,20 @@ export default function EducationDetailsUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          const modelFieldsToSave = {
-            SchoolName: modelFields.SchoolName ?? null,
-            Major: modelFields.Major ?? null,
-            DegreeType: modelFields.DegreeType ?? null,
-            GPA: modelFields.GPA ?? null,
-            StartMonth: modelFields.StartMonth ?? null,
-            StartYear: modelFields.StartYear ?? null,
-            EndMonth: modelFields.EndMonth ?? null,
-            EndYear: modelFields.EndYear ?? null,
-            educationDetailsUserProfileId: modelFields?.UserProfile?.id ?? null,
-          };
-          await API.graphql({
-            query: updateEducationDetails.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                id: educationDetailsRecord.id,
-                ...modelFieldsToSave,
-              },
-            },
-          });
+          await DataStore.save(
+            EducationDetails.copyOf(educationDetailsRecord, (updated) => {
+              Object.assign(updated, modelFields);
+              if (!modelFields.UserProfile) {
+                updated.educationDetailsUserProfileId = undefined;
+              }
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}
@@ -728,16 +683,15 @@ export default function EducationDetailsUpdateForm(props) {
           isReadOnly={false}
           placeholder="Search UserProfile"
           value={currentUserProfileDisplayValue}
-          options={UserProfileRecords.filter(
-            (r) => !UserProfileIdSet.has(getIDValue.UserProfile?.(r))
-          ).map((r) => ({
-            id: getIDValue.UserProfile?.(r),
-            label: getDisplayValue.UserProfile?.(r),
-          }))}
-          isLoading={UserProfileLoading}
+          options={userProfileRecords
+            .filter((r) => !UserProfileIdSet.has(getIDValue.UserProfile?.(r)))
+            .map((r) => ({
+              id: getIDValue.UserProfile?.(r),
+              label: getDisplayValue.UserProfile?.(r),
+            }))}
           onSelect={({ id, label }) => {
             setCurrentUserProfileValue(
-              UserProfileRecords.find((r) =>
+              userProfileRecords.find((r) =>
                 Object.entries(JSON.parse(id)).every(
                   ([key, value]) => r[key] === value
                 )
@@ -752,7 +706,6 @@ export default function EducationDetailsUpdateForm(props) {
           defaultValue={UserProfile}
           onChange={(e) => {
             let { value } = e.target;
-            fetchUserProfileRecords(value);
             if (errors.UserProfile?.hasError) {
               runValidationTasks("UserProfile", value);
             }

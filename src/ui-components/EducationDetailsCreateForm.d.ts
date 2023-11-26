@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { AutocompleteProps, GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { UserProfile as UserProfile0 } from "../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -30,7 +31,7 @@ export declare type EducationDetailsCreateFormInputValues = {
     StartYear?: string;
     EndMonth?: string;
     EndYear?: string;
-    UserProfile?: any;
+    UserProfile?: UserProfile0;
 };
 export declare type EducationDetailsCreateFormValidationValues = {
     SchoolName?: ValidationFunction<string>;
@@ -41,7 +42,7 @@ export declare type EducationDetailsCreateFormValidationValues = {
     StartYear?: ValidationFunction<string>;
     EndMonth?: ValidationFunction<string>;
     EndYear?: ValidationFunction<string>;
-    UserProfile?: ValidationFunction<any>;
+    UserProfile?: ValidationFunction<UserProfile0>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EducationDetailsCreateFormOverridesProps = {

@@ -14,9 +14,9 @@ import {
   TextAreaField,
   TextField,
 } from "@aws-amplify/ui-react";
+import { ExperienceDetails } from "../models";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { createExperienceDetails } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function ExperienceDetailsCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -140,14 +140,7 @@ export default function ExperienceDetailsCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
-            query: createExperienceDetails.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(new ExperienceDetails(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -156,8 +149,7 @@ export default function ExperienceDetailsCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

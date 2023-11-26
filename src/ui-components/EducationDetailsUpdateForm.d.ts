@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { AutocompleteProps, GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { EducationDetails, UserProfile as UserProfile0 } from "../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -30,7 +31,7 @@ export declare type EducationDetailsUpdateFormInputValues = {
     StartYear?: string;
     EndMonth?: string;
     EndYear?: string;
-    UserProfile?: any;
+    UserProfile?: UserProfile0;
 };
 export declare type EducationDetailsUpdateFormValidationValues = {
     SchoolName?: ValidationFunction<string>;
@@ -41,7 +42,7 @@ export declare type EducationDetailsUpdateFormValidationValues = {
     StartYear?: ValidationFunction<string>;
     EndMonth?: ValidationFunction<string>;
     EndYear?: ValidationFunction<string>;
-    UserProfile?: ValidationFunction<any>;
+    UserProfile?: ValidationFunction<UserProfile0>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EducationDetailsUpdateFormOverridesProps = {
@@ -60,7 +61,7 @@ export declare type EducationDetailsUpdateFormProps = React.PropsWithChildren<{
     overrides?: EducationDetailsUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    educationDetails?: any;
+    educationDetails?: EducationDetails;
     onSubmit?: (fields: EducationDetailsUpdateFormInputValues) => EducationDetailsUpdateFormInputValues;
     onSuccess?: (fields: EducationDetailsUpdateFormInputValues) => void;
     onError?: (fields: EducationDetailsUpdateFormInputValues, errorMessage: string) => void;

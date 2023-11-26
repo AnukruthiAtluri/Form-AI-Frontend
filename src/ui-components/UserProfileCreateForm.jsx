@@ -7,9 +7,9 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import { UserProfile } from "../models";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { createUserProfile } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function UserProfileCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -111,14 +111,7 @@ export default function UserProfileCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
-            query: createUserProfile.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(new UserProfile(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -127,8 +120,7 @@ export default function UserProfileCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

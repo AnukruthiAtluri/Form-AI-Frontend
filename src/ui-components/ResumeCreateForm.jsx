@@ -8,15 +8,15 @@
 import * as React from "react";
 import { Button, Flex, Grid } from "@aws-amplify/ui-react";
 import { StorageManager } from "@aws-amplify/ui-react-storage";
+import { Resume as Resume0 } from "../models";
 import {
   fetchByPath,
   getOverrideProps,
   processFile,
   validateField,
 } from "./utils";
-import { API } from "aws-amplify";
-import { createResume } from "../graphql/mutations";
 import { Field } from "@aws-amplify/ui-react/internal";
+import { DataStore } from "aws-amplify";
 export default function ResumeCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -96,14 +96,7 @@ export default function ResumeCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
-            query: createResume.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(new Resume0(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -112,8 +105,7 @@ export default function ResumeCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

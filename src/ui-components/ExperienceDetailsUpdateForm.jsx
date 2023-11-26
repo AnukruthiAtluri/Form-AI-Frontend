@@ -14,10 +14,9 @@ import {
   TextAreaField,
   TextField,
 } from "@aws-amplify/ui-react";
+import { ExperienceDetails } from "../models";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { getExperienceDetails } from "../graphql/queries";
-import { updateExperienceDetails } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function ExperienceDetailsUpdateForm(props) {
   const {
     id: idProp,
@@ -76,12 +75,7 @@ export default function ExperienceDetailsUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await API.graphql({
-              query: getExperienceDetails.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getExperienceDetails
+        ? await DataStore.query(ExperienceDetails, idProp)
         : experienceDetailsModelProp;
       setExperienceDetailsRecord(record);
     };
@@ -125,15 +119,15 @@ export default function ExperienceDetailsUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Company: Company ?? null,
-          Location: Location ?? null,
-          JobTitle: JobTitle ?? null,
-          ExperienceType: ExperienceType ?? null,
-          StartMonth: StartMonth ?? null,
-          StartYear: StartYear ?? null,
-          EndMonth: EndMonth ?? null,
-          EndYear: EndYear ?? null,
-          Description: Description ?? null,
+          Company,
+          Location,
+          JobTitle,
+          ExperienceType,
+          StartMonth,
+          StartYear,
+          EndMonth,
+          EndYear,
+          Description,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -163,22 +157,17 @@ export default function ExperienceDetailsUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
-            query: updateExperienceDetails.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                id: experienceDetailsRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            ExperienceDetails.copyOf(experienceDetailsRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

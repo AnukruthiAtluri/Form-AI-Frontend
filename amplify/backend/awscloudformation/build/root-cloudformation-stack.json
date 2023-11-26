@@ -173,7 +173,7 @@
             "Ref": "UnauthRoleName"
           },
           "S3DeploymentBucket": "amplify-formaiui-dev-161717-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/ef5e6a2d4583c7b0cb75e82a61b8397b46d31e1c",
+          "S3DeploymentRootKey": "amplify-appsync-files/de131993385a0d2b16b8e6656ee65a13739cf7bc",
           "env": "dev"
         }
       }

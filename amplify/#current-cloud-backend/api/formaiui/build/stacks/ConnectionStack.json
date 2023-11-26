@@ -72,6 +72,10 @@
               "/resolvers/Resume.UserProfile.res.vtl"
             ]
           ]
+        },
+        "SyncConfig": {
+          "ConflictDetection": "VERSION",
+          "ConflictHandler": "AUTOMERGE"
         }
       }
     },
@@ -112,7 +116,7 @@
               {
                 "Ref": "referencetotransformerrootstackUserProfileNestedStackUserProfileNestedStackResourceB17ABB2EOutputstransformerrootstackUserProfileUserProfileTable5908BFAARef"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+              "\"))\n$util.qr($ctx.stash.put(\"deltaSyncTableTtl\", 30))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
               {
                 "Ref": "AWS::AccountId"
               },
@@ -177,6 +181,10 @@
               "/resolvers/ExperienceDetails.UserProfile.res.vtl"
             ]
           ]
+        },
+        "SyncConfig": {
+          "ConflictDetection": "VERSION",
+          "ConflictHandler": "AUTOMERGE"
         }
       }
     },
@@ -217,7 +225,7 @@
               {
                 "Ref": "referencetotransformerrootstackUserProfileNestedStackUserProfileNestedStackResourceB17ABB2EOutputstransformerrootstackUserProfileUserProfileTable5908BFAARef"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+              "\"))\n$util.qr($ctx.stash.put(\"deltaSyncTableTtl\", 30))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
               {
                 "Ref": "AWS::AccountId"
               },
@@ -282,6 +290,10 @@
               "/resolvers/EducationDetails.UserProfile.res.vtl"
             ]
           ]
+        },
+        "SyncConfig": {
+          "ConflictDetection": "VERSION",
+          "ConflictHandler": "AUTOMERGE"
         }
       }
     },
@@ -322,7 +334,7 @@
               {
                 "Ref": "referencetotransformerrootstackUserProfileNestedStackUserProfileNestedStackResourceB17ABB2EOutputstransformerrootstackUserProfileUserProfileTable5908BFAARef"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+              "\"))\n$util.qr($ctx.stash.put(\"deltaSyncTableTtl\", 30))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
               {
                 "Ref": "AWS::AccountId"
               },
@@ -387,6 +399,10 @@
               "/resolvers/Resources.UserProfile.res.vtl"
             ]
           ]
+        },
+        "SyncConfig": {
+          "ConflictDetection": "VERSION",
+          "ConflictHandler": "AUTOMERGE"
         }
       }
     },
@@ -427,7 +443,7 @@
               {
                 "Ref": "referencetotransformerrootstackUserProfileNestedStackUserProfileNestedStackResourceB17ABB2EOutputstransformerrootstackUserProfileUserProfileTable5908BFAARef"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+              "\"))\n$util.qr($ctx.stash.put(\"deltaSyncTableTtl\", 30))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
               {
                 "Ref": "AWS::AccountId"
               },
@@ -492,6 +508,10 @@
               "/resolvers/PortfolioLinks.UserProfile.res.vtl"
             ]
           ]
+        },
+        "SyncConfig": {
+          "ConflictDetection": "VERSION",
+          "ConflictHandler": "AUTOMERGE"
         }
       }
     },
@@ -532,7 +552,7 @@
               {
                 "Ref": "referencetotransformerrootstackUserProfileNestedStackUserProfileNestedStackResourceB17ABB2EOutputstransformerrootstackUserProfileUserProfileTable5908BFAARef"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+              "\"))\n$util.qr($ctx.stash.put(\"deltaSyncTableTtl\", 30))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
               {
                 "Ref": "AWS::AccountId"
               },

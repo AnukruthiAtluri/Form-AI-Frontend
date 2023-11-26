@@ -1,13 +1,16 @@
-type Resume @aws_iam @aws_api_key {
+type Resume @aws_api_key @aws_iam {
   id: ID!
   Resume: String
   UserProfile: UserProfile
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
   resumeUserProfileId: ID
 }
 
-type ExperienceDetails @aws_iam @aws_api_key {
+type ExperienceDetails @aws_api_key @aws_iam {
   id: ID!
   Company: String
   Location: String
@@ -21,10 +24,13 @@ type ExperienceDetails @aws_iam @aws_api_key {
   UserProfile: UserProfile
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
   experienceDetailsUserProfileId: ID
 }
 
-type EducationDetails @aws_iam @aws_api_key {
+type EducationDetails @aws_api_key @aws_iam {
   id: ID!
   SchoolName: String
   Major: String
@@ -37,20 +43,26 @@ type EducationDetails @aws_iam @aws_api_key {
   UserProfile: UserProfile
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
   educationDetailsUserProfileId: ID
 }
 
-type Resources @aws_iam @aws_cognito_user_pools @aws_api_key {
+type Resources @aws_api_key @aws_iam @aws_cognito_user_pools {
   id: ID!
   CurrentRole: String
   UserProfile: UserProfile
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
   resourcesUserProfileId: ID
   owner: String
 }
 
-type PortfolioLinks @aws_iam @aws_cognito_user_pools @aws_api_key {
+type PortfolioLinks @aws_api_key @aws_iam @aws_cognito_user_pools {
   id: ID!
   LinkedinURL: AWSURL
   GithubURL: AWSURL
@@ -59,11 +71,14 @@ type PortfolioLinks @aws_iam @aws_cognito_user_pools @aws_api_key {
   UserProfile: UserProfile
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
   portfolioLinksUserProfileId: ID
   owner: String
 }
 
-type UserProfile @aws_iam @aws_cognito_user_pools @aws_api_key {
+type UserProfile @aws_api_key @aws_iam @aws_cognito_user_pools {
   id: ID!
   firstName: String
   lastName: String
@@ -72,6 +87,9 @@ type UserProfile @aws_iam @aws_cognito_user_pools @aws_api_key {
   Email: AWSEmail
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
   owner: String
 }
 
@@ -228,6 +246,7 @@ enum ModelSortDirection {
 type ModelResumeConnection @aws_api_key @aws_iam {
   items: [Resume]!
   nextToken: String
+  startedAt: AWSTimestamp
 }
 
 input ModelResumeFilterInput {
@@ -236,22 +255,29 @@ input ModelResumeFilterInput {
   and: [ModelResumeFilterInput]
   or: [ModelResumeFilterInput]
   not: ModelResumeFilterInput
+  _deleted: ModelBooleanInput
   resumeUserProfileId: ModelIDInput
 }
 
 type Query {
   getResume(id: ID!): Resume @aws_api_key @aws_iam
   listResumes(filter: ModelResumeFilterInput, limit: Int, nextToken: String): ModelResumeConnection @aws_api_key @aws_iam
+  syncResumes(filter: ModelResumeFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelResumeConnection @aws_api_key @aws_iam
   getExperienceDetails(id: ID!): ExperienceDetails @aws_api_key @aws_iam
   listExperienceDetails(filter: ModelExperienceDetailsFilterInput, limit: Int, nextToken: String): ModelExperienceDetailsConnection @aws_api_key @aws_iam
+  syncExperienceDetails(filter: ModelExperienceDetailsFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelExperienceDetailsConnection @aws_api_key @aws_iam
   getEducationDetails(id: ID!): EducationDetails @aws_api_key @aws_iam
   listEducationDetails(filter: ModelEducationDetailsFilterInput, limit: Int, nextToken: String): ModelEducationDetailsConnection @aws_api_key @aws_iam
+  syncEducationDetails(filter: ModelEducationDetailsFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelEducationDetailsConnection @aws_api_key @aws_iam
   getResources(id: ID!): Resources @aws_api_key @aws_iam @aws_cognito_user_pools
   listResources(filter: ModelResourcesFilterInput, limit: Int, nextToken: String): ModelResourcesConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  syncResources(filter: ModelResourcesFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelResourcesConnection @aws_api_key @aws_iam @aws_cognito_user_pools
   getPortfolioLinks(id: ID!): PortfolioLinks @aws_api_key @aws_iam @aws_cognito_user_pools
   listPortfolioLinks(filter: ModelPortfolioLinksFilterInput, limit: Int, nextToken: String): ModelPortfolioLinksConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  syncPortfolioLinks(filter: ModelPortfolioLinksFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelPortfolioLinksConnection @aws_api_key @aws_iam @aws_cognito_user_pools
   getUserProfile(id: ID!): UserProfile @aws_api_key @aws_iam @aws_cognito_user_pools
   listUserProfiles(filter: ModelUserProfileFilterInput, limit: Int, nextToken: String): ModelUserProfileConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  syncUserProfiles(filter: ModelUserProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelUserProfileConnection @aws_api_key @aws_iam @aws_cognito_user_pools
 }
 
 input ModelResumeConditionInput {
@@ -259,23 +285,27 @@ input ModelResumeConditionInput {
   and: [ModelResumeConditionInput]
   or: [ModelResumeConditionInput]
   not: ModelResumeConditionInput
+  _deleted: ModelBooleanInput
   resumeUserProfileId: ModelIDInput
 }
 
 input CreateResumeInput {
   id: ID
   Resume: String
+  _version: Int
   resumeUserProfileId: ID
 }
 
 input UpdateResumeInput {
   id: ID!
   Resume: String
+  _version: Int
   resumeUserProfileId: ID
 }
 
 input DeleteResumeInput {
   id: ID!
+  _version: Int
 }
 
 type Mutation {
@@ -304,6 +334,7 @@ input ModelSubscriptionResumeFilterInput {
   Resume: ModelSubscriptionStringInput
   and: [ModelSubscriptionResumeFilterInput]
   or: [ModelSubscriptionResumeFilterInput]
+  _deleted: ModelBooleanInput
 }
 
 type Subscription {
@@ -330,6 +361,7 @@ type Subscription {
 type ModelExperienceDetailsConnection @aws_api_key @aws_iam {
   items: [ExperienceDetails]!
   nextToken: String
+  startedAt: AWSTimestamp
 }
 
 input ModelExperienceDetailsFilterInput {
@@ -346,6 +378,7 @@ input ModelExperienceDetailsFilterInput {
   and: [ModelExperienceDetailsFilterInput]
   or: [ModelExperienceDetailsFilterInput]
   not: ModelExperienceDetailsFilterInput
+  _deleted: ModelBooleanInput
   experienceDetailsUserProfileId: ModelIDInput
 }
 
@@ -362,6 +395,7 @@ input ModelExperienceDetailsConditionInput {
   and: [ModelExperienceDetailsConditionInput]
   or: [ModelExperienceDetailsConditionInput]
   not: ModelExperienceDetailsConditionInput
+  _deleted: ModelBooleanInput
   experienceDetailsUserProfileId: ModelIDInput
 }
 
@@ -376,6 +410,7 @@ input CreateExperienceDetailsInput {
   EndMonth: AWSDate
   EndYear: AWSDate
   Description: String
+  _version: Int
   experienceDetailsUserProfileId: ID
 }
 
@@ -390,11 +425,13 @@ input UpdateExperienceDetailsInput {
   EndMonth: AWSDate
   EndYear: AWSDate
   Description: String
+  _version: Int
   experienceDetailsUserProfileId: ID
 }
 
 input DeleteExperienceDetailsInput {
   id: ID!
+  _version: Int
 }
 
 input ModelSubscriptionExperienceDetailsFilterInput {
@@ -410,11 +447,13 @@ input ModelSubscriptionExperienceDetailsFilterInput {
   Description: ModelSubscriptionStringInput
   and: [ModelSubscriptionExperienceDetailsFilterInput]
   or: [ModelSubscriptionExperienceDetailsFilterInput]
+  _deleted: ModelBooleanInput
 }
 
 type ModelEducationDetailsConnection @aws_api_key @aws_iam {
   items: [EducationDetails]!
   nextToken: String
+  startedAt: AWSTimestamp
 }
 
 input ModelEducationDetailsFilterInput {
@@ -430,6 +469,7 @@ input ModelEducationDetailsFilterInput {
   and: [ModelEducationDetailsFilterInput]
   or: [ModelEducationDetailsFilterInput]
   not: ModelEducationDetailsFilterInput
+  _deleted: ModelBooleanInput
   educationDetailsUserProfileId: ModelIDInput
 }
 
@@ -445,6 +485,7 @@ input ModelEducationDetailsConditionInput {
   and: [ModelEducationDetailsConditionInput]
   or: [ModelEducationDetailsConditionInput]
   not: ModelEducationDetailsConditionInput
+  _deleted: ModelBooleanInput
   educationDetailsUserProfileId: ModelIDInput
 }
 
@@ -458,6 +499,7 @@ input CreateEducationDetailsInput {
   StartYear: AWSDate
   EndMonth: AWSDate
   EndYear: AWSDate
+  _version: Int
   educationDetailsUserProfileId: ID
 }
 
@@ -471,11 +513,13 @@ input UpdateEducationDetailsInput {
   StartYear: AWSDate
   EndMonth: AWSDate
   EndYear: AWSDate
+  _version: Int
   educationDetailsUserProfileId: ID
 }
 
 input DeleteEducationDetailsInput {
   id: ID!
+  _version: Int
 }
 
 input ModelSubscriptionEducationDetailsFilterInput {
@@ -490,11 +534,13 @@ input ModelSubscriptionEducationDetailsFilterInput {
   EndYear: ModelSubscriptionStringInput
   and: [ModelSubscriptionEducationDetailsFilterInput]
   or: [ModelSubscriptionEducationDetailsFilterInput]
+  _deleted: ModelBooleanInput
 }
 
 type ModelResourcesConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   items: [Resources]!
   nextToken: String
+  startedAt: AWSTimestamp
 }
 
 input ModelResourcesFilterInput {
@@ -503,6 +549,7 @@ input ModelResourcesFilterInput {
   and: [ModelResourcesFilterInput]
   or: [ModelResourcesFilterInput]
   not: ModelResourcesFilterInput
+  _deleted: ModelBooleanInput
   resourcesUserProfileId: ModelIDInput
 }
 
@@ -511,23 +558,27 @@ input ModelResourcesConditionInput {
   and: [ModelResourcesConditionInput]
   or: [ModelResourcesConditionInput]
   not: ModelResourcesConditionInput
+  _deleted: ModelBooleanInput
   resourcesUserProfileId: ModelIDInput
 }
 
 input CreateResourcesInput {
   id: ID
   CurrentRole: String
+  _version: Int
   resourcesUserProfileId: ID
 }
 
 input UpdateResourcesInput {
   id: ID!
   CurrentRole: String
+  _version: Int
   resourcesUserProfileId: ID
 }
 
 input DeleteResourcesInput {
   id: ID!
+  _version: Int
 }
 
 input ModelSubscriptionResourcesFilterInput {
@@ -535,11 +586,13 @@ input ModelSubscriptionResourcesFilterInput {
   CurrentRole: ModelSubscriptionStringInput
   and: [ModelSubscriptionResourcesFilterInput]
   or: [ModelSubscriptionResourcesFilterInput]
+  _deleted: ModelBooleanInput
 }
 
 type ModelPortfolioLinksConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   items: [PortfolioLinks]!
   nextToken: String
+  startedAt: AWSTimestamp
 }
 
 input ModelPortfolioLinksFilterInput {
@@ -551,6 +604,7 @@ input ModelPortfolioLinksFilterInput {
   and: [ModelPortfolioLinksFilterInput]
   or: [ModelPortfolioLinksFilterInput]
   not: ModelPortfolioLinksFilterInput
+  _deleted: ModelBooleanInput
   portfolioLinksUserProfileId: ModelIDInput
 }
 
@@ -562,6 +616,7 @@ input ModelPortfolioLinksConditionInput {
   and: [ModelPortfolioLinksConditionInput]
   or: [ModelPortfolioLinksConditionInput]
   not: ModelPortfolioLinksConditionInput
+  _deleted: ModelBooleanInput
   portfolioLinksUserProfileId: ModelIDInput
 }
 
@@ -571,6 +626,7 @@ input CreatePortfolioLinksInput {
   GithubURL: AWSURL
   PortfolioURL: String
   OtherURL: AWSURL
+  _version: Int
   portfolioLinksUserProfileId: ID
 }
 
@@ -580,11 +636,13 @@ input UpdatePortfolioLinksInput {
   GithubURL: AWSURL
   PortfolioURL: String
   OtherURL: AWSURL
+  _version: Int
   portfolioLinksUserProfileId: ID
 }
 
 input DeletePortfolioLinksInput {
   id: ID!
+  _version: Int
 }
 
 input ModelSubscriptionPortfolioLinksFilterInput {
@@ -595,11 +653,13 @@ input ModelSubscriptionPortfolioLinksFilterInput {
   OtherURL: ModelSubscriptionStringInput
   and: [ModelSubscriptionPortfolioLinksFilterInput]
   or: [ModelSubscriptionPortfolioLinksFilterInput]
+  _deleted: ModelBooleanInput
 }
 
 type ModelUserProfileConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   items: [UserProfile]!
   nextToken: String
+  startedAt: AWSTimestamp
 }
 
 input ModelUserProfileFilterInput {
@@ -612,6 +672,7 @@ input ModelUserProfileFilterInput {
   and: [ModelUserProfileFilterInput]
   or: [ModelUserProfileFilterInput]
   not: ModelUserProfileFilterInput
+  _deleted: ModelBooleanInput
 }
 
 input ModelUserProfileConditionInput {
@@ -623,6 +684,7 @@ input ModelUserProfileConditionInput {
   and: [ModelUserProfileConditionInput]
   or: [ModelUserProfileConditionInput]
   not: ModelUserProfileConditionInput
+  _deleted: ModelBooleanInput
 }
 
 input CreateUserProfileInput {
@@ -632,6 +694,7 @@ input CreateUserProfileInput {
   DOB: AWSDate
   phoneNumber: AWSPhone
   Email: AWSEmail
+  _version: Int
 }
 
 input UpdateUserProfileInput {
@@ -641,10 +704,12 @@ input UpdateUserProfileInput {
   DOB: AWSDate
   phoneNumber: AWSPhone
   Email: AWSEmail
+  _version: Int
 }
 
 input DeleteUserProfileInput {
   id: ID!
+  _version: Int
 }
 
 input ModelSubscriptionUserProfileFilterInput {
@@ -656,4 +721,5 @@ input ModelSubscriptionUserProfileFilterInput {
   Email: ModelSubscriptionStringInput
   and: [ModelSubscriptionUserProfileFilterInput]
   or: [ModelSubscriptionUserProfileFilterInput]
+  _deleted: ModelBooleanInput
 }

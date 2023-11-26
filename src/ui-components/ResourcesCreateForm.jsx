@@ -7,9 +7,9 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import { Resources } from "../models";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { createResources } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function ResourcesCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -91,14 +91,7 @@ export default function ResourcesCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
-            query: createResources.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(new Resources(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -107,8 +100,7 @@ export default function ResourcesCreateForm(props) {
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

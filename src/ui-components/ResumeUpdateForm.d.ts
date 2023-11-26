@@ -7,6 +7,7 @@
 import * as React from "react";
 import { GridProps } from "@aws-amplify/ui-react";
 import { StorageManagerProps } from "@aws-amplify/ui-react-storage";
+import { Resume as Resume0 } from "../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -37,7 +38,7 @@ export declare type ResumeUpdateFormProps = React.PropsWithChildren<{
     overrides?: ResumeUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    resume?: any;
+    resume?: Resume0;
     onSubmit?: (fields: ResumeUpdateFormInputValues) => ResumeUpdateFormInputValues;
     onSuccess?: (fields: ResumeUpdateFormInputValues) => void;
     onError?: (fields: ResumeUpdateFormInputValues, errorMessage: string) => void;

@@ -15,11 +15,17 @@ export const onCreateResume = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       resumeUserProfileId
       __typename
     }
@@ -39,11 +45,17 @@ export const onUpdateResume = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       resumeUserProfileId
       __typename
     }
@@ -63,11 +75,17 @@ export const onDeleteResume = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       resumeUserProfileId
       __typename
     }
@@ -97,11 +115,17 @@ export const onCreateExperienceDetails = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       experienceDetailsUserProfileId
       __typename
     }
@@ -131,11 +155,17 @@ export const onUpdateExperienceDetails = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       experienceDetailsUserProfileId
       __typename
     }
@@ -165,11 +195,17 @@ export const onDeleteExperienceDetails = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       experienceDetailsUserProfileId
       __typename
     }
@@ -198,11 +234,17 @@ export const onCreateEducationDetails = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       educationDetailsUserProfileId
       __typename
     }
@@ -231,11 +273,17 @@ export const onUpdateEducationDetails = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       educationDetailsUserProfileId
       __typename
     }
@@ -264,11 +312,17 @@ export const onDeleteEducationDetails = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       educationDetailsUserProfileId
       __typename
     }
@@ -291,11 +345,17 @@ export const onCreateResources = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       resourcesUserProfileId
       owner
       __typename
@@ -319,11 +379,17 @@ export const onUpdateResources = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       resourcesUserProfileId
       owner
       __typename
@@ -347,11 +413,17 @@ export const onDeleteResources = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       resourcesUserProfileId
       owner
       __typename
@@ -378,11 +450,17 @@ export const onCreatePortfolioLinks = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       portfolioLinksUserProfileId
       owner
       __typename
@@ -409,11 +487,17 @@ export const onUpdatePortfolioLinks = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       portfolioLinksUserProfileId
       owner
       __typename
@@ -440,11 +524,17 @@ export const onDeletePortfolioLinks = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       portfolioLinksUserProfileId
       owner
       __typename
@@ -465,6 +555,9 @@ export const onCreateUserProfile = /* GraphQL */ `
       Email
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -484,6 +577,9 @@ export const onUpdateUserProfile = /* GraphQL */ `
       Email
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -503,6 +599,9 @@ export const onDeleteUserProfile = /* GraphQL */ `
       Email
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }

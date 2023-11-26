@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { PortfolioLinks } from "../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -45,7 +46,7 @@ export declare type PortfolioLinksUpdateFormProps = React.PropsWithChildren<{
     overrides?: PortfolioLinksUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    portfolioLinks?: any;
+    portfolioLinks?: PortfolioLinks;
     onSubmit?: (fields: PortfolioLinksUpdateFormInputValues) => PortfolioLinksUpdateFormInputValues;
     onSuccess?: (fields: PortfolioLinksUpdateFormInputValues) => void;
     onError?: (fields: PortfolioLinksUpdateFormInputValues, errorMessage: string) => void;

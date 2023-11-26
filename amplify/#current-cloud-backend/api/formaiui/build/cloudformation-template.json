@@ -67,7 +67,7 @@
         "GraphQLAPI": {
             "Type": "AWS::AppSync::GraphQLApi",
             "Properties": {
-                "AuthenticationType": "API_KEY",
+                "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
                 "Name": {
                     "Fn::Join": [
                         "",
@@ -87,17 +87,18 @@
                         "AuthenticationType": "AWS_IAM"
                     },
                     {
-                        "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
-                        "UserPoolConfig": {
-                            "AwsRegion": {
-                                "Ref": "AWS::Region"
-                            },
-                            "UserPoolId": {
-                                "Ref": "AuthCognitoUserPoolId"
-                            }
-                        }
+                        "AuthenticationType": "API_KEY"
                     }
-                ]
+                ],
+                "UserPoolConfig": {
+                    "AwsRegion": {
+                        "Ref": "AWS::Region"
+                    },
+                    "DefaultAction": "ALLOW",
+                    "UserPoolId": {
+                        "Ref": "AuthCognitoUserPoolId"
+                    }
+                }
             }
         },
         "GraphQLAPITransformerSchema3CB2AE18": {
@@ -137,7 +138,7 @@
                     ]
                 },
                 "Description": "api key description",
-                "Expires": 1702625415
+                "Expires": 1703536078
             }
         },
         "GraphQLAPINONEDS95A13CF0": {
@@ -1121,6 +1122,21 @@
                                                     "ApiId"
                                                 ]
                                             },
+                                            "typeName": "Query",
+                                            "fieldName": "syncResources"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
                                             "typeName": "Mutation",
                                             "fieldName": "createResources"
                                         }
@@ -1228,6 +1244,21 @@
                                             },
                                             "typeName": "Query",
                                             "fieldName": "listPortfolioLinks"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Query",
+                                            "fieldName": "syncPortfolioLinks"
                                         }
                                     ]
                                 },
@@ -1361,6 +1392,21 @@
                                                     "ApiId"
                                                 ]
                                             },
+                                            "typeName": "Query",
+                                            "fieldName": "syncUserProfiles"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
                                             "typeName": "Mutation",
                                             "fieldName": "createUserProfile"
                                         }
@@ -1454,58 +1500,6 @@
                     }
                 ]
             }
-        },
-        "CustomResourcesjson": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-                "Parameters": {
-                    "AppSyncApiId": {
-                        "Fn::GetAtt": [
-                            "GraphQLAPI",
-                            "ApiId"
-                        ]
-                    },
-                    "AppSyncApiName": {
-                        "Ref": "AppSyncApiName"
-                    },
-                    "env": {
-                        "Ref": "env"
-                    },
-                    "S3DeploymentBucket": {
-                        "Ref": "S3DeploymentBucket"
-                    },
-                    "S3DeploymentRootKey": {
-                        "Ref": "S3DeploymentRootKey"
-                    }
-                },
-                "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            "https://s3.amazonaws.com",
-                            {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "stacks",
-                            "CustomResources.json"
-                        ]
-                    ]
-                }
-            },
-            "DependsOn": [
-                "GraphQLAPI",
-                "GraphQLAPITransformerSchema3CB2AE18",
-                "Resume",
-                "ExperienceDetails",
-                "EducationDetails",
-                "Resources",
-                "PortfolioLinks",
-                "UserProfile",
-                "ConnectionStack"
-            ]
         }
     },
     "Outputs": {

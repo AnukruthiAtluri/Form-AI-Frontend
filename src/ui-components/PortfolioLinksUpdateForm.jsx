@@ -7,10 +7,9 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import { PortfolioLinks } from "../models";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
-import { getPortfolioLinks } from "../graphql/queries";
-import { updatePortfolioLinks } from "../graphql/mutations";
+import { DataStore } from "aws-amplify";
 export default function PortfolioLinksUpdateForm(props) {
   const {
     id: idProp,
@@ -54,12 +53,7 @@ export default function PortfolioLinksUpdateForm(props) {
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? (
-            await API.graphql({
-              query: getPortfolioLinks.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getPortfolioLinks
+        ? await DataStore.query(PortfolioLinks, idProp)
         : portfolioLinksModelProp;
       setPortfolioLinksRecord(record);
     };
@@ -98,10 +92,10 @@ export default function PortfolioLinksUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          LinkedinURL: LinkedinURL ?? null,
-          GithubURL: GithubURL ?? null,
-          PortfolioURL: PortfolioURL ?? null,
-          OtherURL: OtherURL ?? null,
+          LinkedinURL,
+          GithubURL,
+          PortfolioURL,
+          OtherURL,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -131,22 +125,17 @@ export default function PortfolioLinksUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
-            query: updatePortfolioLinks.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                id: portfolioLinksRecord.id,
-                ...modelFields,
-              },
-            },
-          });
+          await DataStore.save(
+            PortfolioLinks.copyOf(portfolioLinksRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
           }
         } catch (err) {
           if (onError) {
-            const messages = err.errors.map((e) => e.message).join("\n");
-            onError(modelFields, messages);
+            onError(modelFields, err.message);
           }
         }
       }}

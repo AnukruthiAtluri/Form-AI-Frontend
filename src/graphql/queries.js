@@ -15,11 +15,17 @@ export const getResume = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       resumeUserProfileId
       __typename
     }
@@ -37,10 +43,44 @@ export const listResumes = /* GraphQL */ `
         Resume
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         resumeUserProfileId
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncResumes = /* GraphQL */ `
+  query SyncResumes(
+    $filter: ModelResumeFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncResumes(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        Resume
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        resumeUserProfileId
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -67,11 +107,17 @@ export const getExperienceDetails = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       experienceDetailsUserProfileId
       __typename
     }
@@ -101,10 +147,52 @@ export const listExperienceDetails = /* GraphQL */ `
         Description
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         experienceDetailsUserProfileId
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncExperienceDetails = /* GraphQL */ `
+  query SyncExperienceDetails(
+    $filter: ModelExperienceDetailsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncExperienceDetails(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        Company
+        Location
+        JobTitle
+        ExperienceType
+        StartMonth
+        StartYear
+        EndMonth
+        EndYear
+        Description
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        experienceDetailsUserProfileId
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -130,11 +218,17 @@ export const getEducationDetails = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       educationDetailsUserProfileId
       __typename
     }
@@ -163,10 +257,51 @@ export const listEducationDetails = /* GraphQL */ `
         EndYear
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         educationDetailsUserProfileId
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncEducationDetails = /* GraphQL */ `
+  query SyncEducationDetails(
+    $filter: ModelEducationDetailsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncEducationDetails(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        SchoolName
+        Major
+        DegreeType
+        GPA
+        StartMonth
+        StartYear
+        EndMonth
+        EndYear
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        educationDetailsUserProfileId
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -185,11 +320,17 @@ export const getResources = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       resourcesUserProfileId
       owner
       __typename
@@ -208,11 +349,46 @@ export const listResources = /* GraphQL */ `
         CurrentRole
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         resourcesUserProfileId
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncResources = /* GraphQL */ `
+  query SyncResources(
+    $filter: ModelResourcesFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncResources(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        CurrentRole
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        resourcesUserProfileId
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -234,11 +410,17 @@ export const getPortfolioLinks = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       portfolioLinksUserProfileId
       owner
       __typename
@@ -260,11 +442,49 @@ export const listPortfolioLinks = /* GraphQL */ `
         OtherURL
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         portfolioLinksUserProfileId
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncPortfolioLinks = /* GraphQL */ `
+  query SyncPortfolioLinks(
+    $filter: ModelPortfolioLinksFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPortfolioLinks(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        LinkedinURL
+        GithubURL
+        PortfolioURL
+        OtherURL
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        portfolioLinksUserProfileId
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -280,6 +500,9 @@ export const getUserProfile = /* GraphQL */ `
       Email
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -301,10 +524,48 @@ export const listUserProfiles = /* GraphQL */ `
         Email
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncUserProfiles = /* GraphQL */ `
+  query SyncUserProfiles(
+    $filter: ModelUserProfileFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUserProfiles(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        firstName
+        lastName
+        DOB
+        phoneNumber
+        Email
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }

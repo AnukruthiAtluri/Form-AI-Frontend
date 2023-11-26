@@ -1,42 +1,68 @@
 import React, { useState } from "react";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   Grid,
   Paper,
   Typography,
   Box,
-  TextField,
   Button,
   List,
   ListItem,
   ListItemText,
   IconButton,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
 } from "@mui/material";
 import { Header } from "../components";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Editor } from '@tinymce/tinymce-react';
 
 const ResumeBuilder = () => {
-  const [resumeEntries, setResumeEntries] = useState([]);
+  const [resumes, setResumes] = useState([]);
+  const [selectedResumeIndex, setSelectedResumeIndex] = useState(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [resumeName, setResumeName] = useState('');
 
-  const handleAddEntry = () => {
-    const newEntry = {
+  const handleAddResume = () => {
+    const newResume = {
       id: Date.now(),
-      title: "",
-      description: "",
-      // Add other necessary fields here
+      name: `Resume ${resumes.length + 1}`,
+      content: '',
     };
-    setResumeEntries([...resumeEntries, newEntry]);
+    setResumes([...resumes, newResume]);
   };
 
-  const handleDeleteEntry = (id) => {
-    setResumeEntries(resumeEntries.filter((entry) => entry.id !== id));
+  const handleSelectResume = (index) => {
+    setSelectedResumeIndex(index);
   };
 
-  const handleEditEntry = (id, newValues) => {
-    setResumeEntries(
-      resumeEntries.map((entry) => (entry.id === id ? { ...entry, ...newValues } : entry))
-    );
+  const handleContentChange = (content) => {
+    const updatedResumes = [...resumes];
+    updatedResumes[selectedResumeIndex].content = content;
+    setResumes(updatedResumes);
+  };
+
+  const handleDeleteResume = (index) => {
+    setResumes(resumes.filter((_, i) => i !== index));
+    setSelectedResumeIndex(null); // Reset selection
+  };
+
+  const handleEditResumeName = (index) => {
+    setEditDialogOpen(true);
+    setResumeName(resumes[index].name);
+  };
+
+  const handleSaveResumeName = () => {
+    const updatedResumes = [...resumes];
+    updatedResumes[selectedResumeIndex].name = resumeName;
+    setResumes(updatedResumes);
+    setEditDialogOpen(false);
   };
 
   return (
@@ -44,44 +70,76 @@ const ResumeBuilder = () => {
       <Header category="Resume Builder" title="Create Your Resume" />
       
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h6" gutterBottom>
-          Your Resume Sections
-        </Typography>
-        <Button
-          startIcon={<AddCircleOutlineIcon />}
-          onClick={handleAddEntry}
-          variant="outlined"
-        >
-          Add New Section
+        <Typography variant="h6" gutterBottom>Your Resumes</Typography>
+        <Button startIcon={<AddCircleOutlineIcon />} onClick={handleAddResume} variant="outlined">
+          Add New Resume
         </Button>
+        <List>
+          {resumes.map((resume, index) => (
+            <ListItem
+              key={resume.id}
+              button
+              selected={index === selectedResumeIndex}
+              onClick={() => handleSelectResume(index)}
+              secondaryAction={
+                <>
+                  <IconButton onClick={() => handleEditResumeName(index)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => handleDeleteResume(index)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </>
+              }
+            >
+              <ListItemText primary={resume.name} />
+            </ListItem>
+          ))}
+        </List>
       </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <List>
-            {resumeEntries.map((entry) => (
-              <ListItem
-                key={entry.id}
-                secondaryAction={
-                  <>
-                    <IconButton edge="end" aria-label="edit" onClick={() => handleEditEntry(entry.id, {})}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteEntry(entry.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </>
-                }
-              >
-                <ListItemText
-                  primary={entry.title || "New Section"}
-                  secondary={entry.description || "No details added yet"}
+      {selectedResumeIndex !== null && (
+                <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" gutterBottom>Edit - {resumes[selectedResumeIndex].name}</Typography>
+                <Editor
+                  initialValue={resumes[selectedResumeIndex].content}
+                  init={{
+                    height: 500,
+                    menubar: true,
+                    plugins: [
+                      'advlist autolink lists link image charmap print preview anchor',
+                      'searchreplace visualblocks code fullscreen',
+                      'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help'
+                  }}
+                  onEditorChange={(content) => handleContentChange(content)}
                 />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-      </Grid>
+              </Box>
+      )}
+
+      {/* Edit Resume Name Dialog */}
+      <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
+        <DialogTitle>Edit Resume Name</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Resume Name"
+            type="text"
+            fullWidth
+            value={resumeName}
+            onChange={(e) => setResumeName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleSaveResumeName}>Save</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
