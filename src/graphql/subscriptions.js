@@ -10,6 +10,7 @@ export const onCreateResume = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -40,6 +41,7 @@ export const onUpdateResume = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -70,6 +72,7 @@ export const onDeleteResume = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -110,6 +113,7 @@ export const onCreateExperienceDetails = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -150,6 +154,7 @@ export const onUpdateExperienceDetails = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -190,6 +195,7 @@ export const onDeleteExperienceDetails = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -229,6 +235,7 @@ export const onCreateEducationDetails = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -268,6 +275,7 @@ export const onUpdateEducationDetails = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -307,6 +315,7 @@ export const onDeleteEducationDetails = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -340,6 +349,7 @@ export const onCreateResources = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -374,6 +384,7 @@ export const onUpdateResources = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -408,6 +419,7 @@ export const onDeleteResources = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -445,6 +457,7 @@ export const onCreatePortfolioLinks = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -482,6 +495,7 @@ export const onUpdatePortfolioLinks = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -519,6 +533,7 @@ export const onDeletePortfolioLinks = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -550,6 +565,7 @@ export const onCreateUserProfile = /* GraphQL */ `
       DOB
       phoneNumber
       Email
+      profilePicture
       createdAt
       updatedAt
       _version
@@ -572,6 +588,7 @@ export const onUpdateUserProfile = /* GraphQL */ `
       DOB
       phoneNumber
       Email
+      profilePicture
       createdAt
       updatedAt
       _version
@@ -594,6 +611,7 @@ export const onDeleteUserProfile = /* GraphQL */ `
       DOB
       phoneNumber
       Email
+      profilePicture
       createdAt
       updatedAt
       _version

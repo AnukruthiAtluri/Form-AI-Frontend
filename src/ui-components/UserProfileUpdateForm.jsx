@@ -7,8 +7,15 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import { StorageManager } from "@aws-amplify/ui-react-storage";
 import { UserProfile } from "../models";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import {
+  fetchByPath,
+  getOverrideProps,
+  processFile,
+  validateField,
+} from "./utils";
+import { Field } from "@aws-amplify/ui-react/internal";
 import { DataStore } from "aws-amplify";
 export default function UserProfileUpdateForm(props) {
   const {
@@ -28,6 +35,7 @@ export default function UserProfileUpdateForm(props) {
     DOB: "",
     phoneNumber: "",
     Email: "",
+    profilePicture: undefined,
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -36,6 +44,9 @@ export default function UserProfileUpdateForm(props) {
     initialValues.phoneNumber
   );
   const [Email, setEmail] = React.useState(initialValues.Email);
+  const [profilePicture, setProfilePicture] = React.useState(
+    initialValues.profilePicture
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userProfileRecord
@@ -46,6 +57,7 @@ export default function UserProfileUpdateForm(props) {
     setDOB(cleanValues.DOB);
     setPhoneNumber(cleanValues.phoneNumber);
     setEmail(cleanValues.Email);
+    setProfilePicture(cleanValues.profilePicture);
     setErrors({});
   };
   const [userProfileRecord, setUserProfileRecord] =
@@ -66,6 +78,7 @@ export default function UserProfileUpdateForm(props) {
     DOB: [{ type: "Required" }],
     phoneNumber: [{ type: "Required" }, { type: "Phone" }],
     Email: [{ type: "Email" }],
+    profilePicture: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -98,6 +111,7 @@ export default function UserProfileUpdateForm(props) {
           DOB,
           phoneNumber,
           Email,
+          profilePicture,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -163,6 +177,7 @@ export default function UserProfileUpdateForm(props) {
               DOB,
               phoneNumber,
               Email,
+              profilePicture,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -196,6 +211,7 @@ export default function UserProfileUpdateForm(props) {
               DOB,
               phoneNumber,
               Email,
+              profilePicture,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -230,6 +246,7 @@ export default function UserProfileUpdateForm(props) {
               DOB: value,
               phoneNumber,
               Email,
+              profilePicture,
             };
             const result = onChange(modelFields);
             value = result?.DOB ?? value;
@@ -264,6 +281,7 @@ export default function UserProfileUpdateForm(props) {
               DOB,
               phoneNumber: value,
               Email,
+              profilePicture,
             };
             const result = onChange(modelFields);
             value = result?.phoneNumber ?? value;
@@ -292,6 +310,7 @@ export default function UserProfileUpdateForm(props) {
               DOB,
               phoneNumber,
               Email: value,
+              profilePicture,
             };
             const result = onChange(modelFields);
             value = result?.Email ?? value;
@@ -306,6 +325,62 @@ export default function UserProfileUpdateForm(props) {
         hasError={errors.Email?.hasError}
         {...getOverrideProps(overrides, "Email")}
       ></TextField>
+      <Field
+        errorMessage={errors.profilePicture?.errorMessage}
+        hasError={errors.profilePicture?.hasError}
+        label={"Profile picture"}
+        isRequired={false}
+        isReadOnly={false}
+      >
+        {userProfileRecord && (
+          <StorageManager
+            defaultFiles={[{ key: userProfileRecord.profilePicture }]}
+            onUploadSuccess={({ key }) => {
+              setProfilePicture((prev) => {
+                let value = key;
+                if (onChange) {
+                  const modelFields = {
+                    firstName,
+                    lastName,
+                    DOB,
+                    phoneNumber,
+                    Email,
+                    profilePicture: value,
+                  };
+                  const result = onChange(modelFields);
+                  value = result?.profilePicture ?? value;
+                }
+                return value;
+              });
+            }}
+            onFileRemove={({ key }) => {
+              setProfilePicture((prev) => {
+                let value = initialValues?.profilePicture;
+                if (onChange) {
+                  const modelFields = {
+                    firstName,
+                    lastName,
+                    DOB,
+                    phoneNumber,
+                    Email,
+                    profilePicture: value,
+                  };
+                  const result = onChange(modelFields);
+                  value = result?.profilePicture ?? value;
+                }
+                return value;
+              });
+            }}
+            processFile={processFile}
+            accessLevel={"private"}
+            acceptedFileTypes={[]}
+            isResumable={false}
+            showThumbnails={true}
+            maxFileCount={1}
+            {...getOverrideProps(overrides, "profilePicture")}
+          ></StorageManager>
+        )}
+      </Field>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

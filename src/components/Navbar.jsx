@@ -5,8 +5,6 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { LuLogOut } from "react-icons/lu";
 import { FaUserCircle } from "react-icons/fa";
-
-import avatar from "../data/avatar.jpg";
 import { UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
 

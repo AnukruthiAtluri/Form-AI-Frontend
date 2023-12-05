@@ -12,7 +12,6 @@ import { GiLouvrePyramid } from 'react-icons/gi';
 import { GrLocation } from 'react-icons/gr';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineReportProblem } from 'react-icons/md';
-import avatar from './avatar.jpg';
 
 export const gridOrderImage = (props) => (
   <div>

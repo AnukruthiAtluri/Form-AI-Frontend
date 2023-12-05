@@ -4,7 +4,6 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineReportProblem, MdExitToApp } from "react-icons/md";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from 'react-router-dom';
-import avatar from "../data/avatar.jpg";
 import { useStateContext } from "../contexts/ContextProvider";
 import { FaUserCircle } from 'react-icons/fa';
 
@@ -14,6 +13,14 @@ const UserProfile = ({ onClose }) => {
   const { currentColor } = useStateContext();
   const handleLogout = () => {
     signOut();
+  };
+
+  const handleItemClick = (item) => {
+    if (item.action) {
+      item.action();
+    } else if (item.mailto) {
+      window.location.href = item.mailto; // Open the mail client for the 'mailto' link
+    }
   };
 
   const navigateToProfile = () => {
@@ -36,7 +43,8 @@ const UserProfile = ({ onClose }) => {
       desc: "Report an Issue",
       iconColor: "rgb(255, 244, 229)",
       iconBg: "rgb(254, 201, 15)",
-    },
+      mailto: `mailto:aatluri2@umbc.edu?subject=Issue Report - FormAI&body=Please describe your issue:`,
+    },    
     {
       icon: <MdExitToApp />,
       title: "Logout",
@@ -81,7 +89,7 @@ const UserProfile = ({ onClose }) => {
           <div
             key={index}
             className="flex gap-5 border-b-1 border-color p-4 hover:bg-light-gray cursor-pointer dark:hover:bg-[#42464D]"
-            onClick={item.action ? item.action : null} // If action is defined, make it clickable
+            onClick={() => handleItemClick(item)}
           >
             <button
               type="button"

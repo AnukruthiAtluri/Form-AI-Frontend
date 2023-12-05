@@ -85,6 +85,7 @@ type UserProfile @aws_api_key @aws_iam @aws_cognito_user_pools {
   DOB: AWSDate
   phoneNumber: AWSPhone
   Email: AWSEmail
+  profilePicture: String
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   _version: Int!
@@ -669,6 +670,7 @@ input ModelUserProfileFilterInput {
   DOB: ModelStringInput
   phoneNumber: ModelStringInput
   Email: ModelStringInput
+  profilePicture: ModelStringInput
   and: [ModelUserProfileFilterInput]
   or: [ModelUserProfileFilterInput]
   not: ModelUserProfileFilterInput
@@ -681,6 +683,7 @@ input ModelUserProfileConditionInput {
   DOB: ModelStringInput
   phoneNumber: ModelStringInput
   Email: ModelStringInput
+  profilePicture: ModelStringInput
   and: [ModelUserProfileConditionInput]
   or: [ModelUserProfileConditionInput]
   not: ModelUserProfileConditionInput
@@ -694,6 +697,7 @@ input CreateUserProfileInput {
   DOB: AWSDate
   phoneNumber: AWSPhone
   Email: AWSEmail
+  profilePicture: String
   _version: Int
 }
 
@@ -704,6 +708,7 @@ input UpdateUserProfileInput {
   DOB: AWSDate
   phoneNumber: AWSPhone
   Email: AWSEmail
+  profilePicture: String
   _version: Int
 }
 
@@ -719,6 +724,7 @@ input ModelSubscriptionUserProfileFilterInput {
   DOB: ModelSubscriptionStringInput
   phoneNumber: ModelSubscriptionStringInput
   Email: ModelSubscriptionStringInput
+  profilePicture: ModelSubscriptionStringInput
   and: [ModelSubscriptionUserProfileFilterInput]
   or: [ModelSubscriptionUserProfileFilterInput]
   _deleted: ModelBooleanInput

@@ -1,30 +1,33 @@
 import React from "react";
+import { useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Link, NavLink } from "react-router-dom";
 import { SiFormstack } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import {MdOutlineStickyNote2} from "react-icons/md";
-import {RiFileEditFill} from "react-icons/ri";
-import {MdEditDocument} from "react-icons/md";
+import { MdOutlineStickyNote2 } from "react-icons/md";
+import { RiFileEditFill } from "react-icons/ri";
+import { MdEditDocument } from "react-icons/md";
 import { RiDashboardLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineExtension } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa";
 import { BsQuestionSquare } from "react-icons/bs";
+import SubscribeModal from "./Modals/SubscribeModal";
 
-import {
-  AiOutlineCalendar,
-} from "react-icons/ai";
+import { AiOutlineCalendar } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { BsKanban } from "react-icons/bs";
 
 const Sidebar = () => {
+  const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
     useStateContext();
 
-  const handleCloseSideBar = () => {
-    if (activeMenu !== undefined && screenSize <= 900) {
+  const handleCloseSideBar = (link) => {
+    if (link === "Subscribe to FormAI+") {
+      setIsSubscribeModalOpen(true);
+    } else if (activeMenu && window.innerWidth <= 900) {
       setActiveMenu(false);
     }
   };
@@ -73,7 +76,7 @@ const Sidebar = () => {
         {
           name: "CVBuilder",
           icon: <MdEditDocument />,
-        }
+        },
         // {
         //   name: "line",
         //   icon: <AiOutlineStock />,
@@ -133,7 +136,8 @@ const Sidebar = () => {
           name: "download-extension",
           icon: <MdOutlineExtension />,
           desc: "Download Chrome Extension",
-          linkAction: () => window.open('https://chrome.google.com/webstore/', '_blank'), // Replace with your actual link
+          linkAction: () =>
+            window.open("https://chrome.google.com/webstore/", "_blank"), // Replace with your actual link
         },
         {
           name: "Subscribe to FormAI+",

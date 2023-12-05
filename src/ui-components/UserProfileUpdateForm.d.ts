@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { StorageManagerProps } from "@aws-amplify/ui-react-storage";
 import { UserProfile } from "../models";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -28,6 +29,7 @@ export declare type UserProfileUpdateFormInputValues = {
     DOB?: string;
     phoneNumber?: string;
     Email?: string;
+    profilePicture?: string;
 };
 export declare type UserProfileUpdateFormValidationValues = {
     firstName?: ValidationFunction<string>;
@@ -35,6 +37,7 @@ export declare type UserProfileUpdateFormValidationValues = {
     DOB?: ValidationFunction<string>;
     phoneNumber?: ValidationFunction<string>;
     Email?: ValidationFunction<string>;
+    profilePicture?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UserProfileUpdateFormOverridesProps = {
@@ -44,6 +47,7 @@ export declare type UserProfileUpdateFormOverridesProps = {
     DOB?: PrimitiveOverrideProps<TextFieldProps>;
     phoneNumber?: PrimitiveOverrideProps<TextFieldProps>;
     Email?: PrimitiveOverrideProps<TextFieldProps>;
+    profilePicture?: PrimitiveOverrideProps<StorageManagerProps>;
 } & EscapeHatchProps;
 export declare type UserProfileUpdateFormProps = React.PropsWithChildren<{
     overrides?: UserProfileUpdateFormOverridesProps | undefined | null;

@@ -10,6 +10,7 @@ export const getResume = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -102,6 +103,7 @@ export const getExperienceDetails = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -213,6 +215,7 @@ export const getEducationDetails = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -315,6 +318,7 @@ export const getResources = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -405,6 +409,7 @@ export const getPortfolioLinks = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -495,6 +500,7 @@ export const getUserProfile = /* GraphQL */ `
       DOB
       phoneNumber
       Email
+      profilePicture
       createdAt
       updatedAt
       _version
@@ -519,6 +525,7 @@ export const listUserProfiles = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version
@@ -553,6 +560,7 @@ export const syncUserProfiles = /* GraphQL */ `
         DOB
         phoneNumber
         Email
+        profilePicture
         createdAt
         updatedAt
         _version

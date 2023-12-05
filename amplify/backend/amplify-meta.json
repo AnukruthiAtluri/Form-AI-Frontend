@@ -50,12 +50,12 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync",
-      "lastPushTimeStamp": "2023-11-25T20:37:31.945Z",
+      "lastPushTimeStamp": "2023-12-04T07:01:26.607Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-formaiui-dev-161717-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiformaiui"
       },
-      "lastPushDirHash": "eP3lJqggS1hBscJReyVLAo1lDmc="
+      "lastPushDirHash": "bwoLQpenpOrkGEPhZIYPrv0ZjPI="
     }
   },
   "auth": {
@@ -99,7 +99,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://localhost:3000/google\",\"https://dev.dk5o9ng78c4g4.amplifyapp.com/google\"],\"LogoutURLs\":[\"https://localhost:3000/google\",\"https://dev.dk5o9ng78c4g4.amplifyapp.com/google\"]}",
         "UserPoolName": "formaiui6a3b18e6_userpool_6a3b18e6"
       },
-      "lastPushTimeStamp": "2023-11-25T20:37:31.952Z",
+      "lastPushTimeStamp": "2023-12-04T07:01:26.609Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-formaiui-dev-161717-deployment/amplify-cfn-templates/auth/formaiui6a3b18e6-cloudformation-template.json",
         "logicalId": "authformaiui6a3b18e6"
@@ -112,7 +112,7 @@
       "service": "amplifyhosting",
       "type": "manual",
       "output": {},
-      "lastPushTimeStamp": "2023-11-25T20:37:31.957Z",
+      "lastPushTimeStamp": "2023-12-04T07:01:26.610Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-formaiui-dev-161717-deployment/amplify-cfn-templates/hosting/amplifyhosting-template.json",
         "logicalId": "hostingamplifyhosting"
@@ -128,7 +128,7 @@
         "BucketName": "formaiui-storage161717-dev",
         "Region": "us-east-1"
       },
-      "lastPushTimeStamp": "2023-11-25T20:37:34.456Z",
+      "lastPushTimeStamp": "2023-12-04T07:01:28.703Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-formaiui-dev-161717-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
         "logicalId": "storages3formaiuistorage"

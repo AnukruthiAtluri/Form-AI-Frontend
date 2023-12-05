@@ -213,6 +213,7 @@ type EagerUserProfile = {
   readonly DOB?: string | null;
   readonly phoneNumber?: string | null;
   readonly Email?: string | null;
+  readonly profilePicture?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -228,6 +229,7 @@ type LazyUserProfile = {
   readonly DOB?: string | null;
   readonly phoneNumber?: string | null;
   readonly Email?: string | null;
+  readonly profilePicture?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

@@ -653,6 +653,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "profilePicture": {
+                    "name": "profilePicture",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -730,5 +737,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "979f6446ed1c396010d7fb4fd780cdb8"
+    "version": "cac76d889a03e614ad2daa9732a2d208"
 };
