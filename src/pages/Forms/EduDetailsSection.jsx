@@ -1,47 +1,38 @@
 import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import Button from '@mui/material/Button';
-import { useTheme } from '@mui/material/styles';
+import AddIcon from '@mui/icons-material/Add';
 import { EducationDetailsCreateForm } from '../../ui-components';
 
 const EduDetailsSection = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const theme = useTheme();
+  const [eduForms, setEduForms] = useState([]);
 
-  const toggleDialog = () => {
-    setIsDialogOpen(!isDialogOpen);
+  const addEduForm = () => {
+    setEduForms([...eduForms, {}]); // Add a new empty form data object
+  };
+
+  const removeEduForm = (index) => {
+    setEduForms(eduForms.filter((_, i) => i !== index));
   };
 
   return (
     <div className="mb-4">
-      <Button variant="outlined" onClick={toggleDialog}>
-        Education Details
-      </Button>
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold">Education Details</h3>
+        <IconButton onClick={addEduForm} color="primary" aria-label="add">
+          <AddIcon />
+        </IconButton>
+      </div>
 
-      <Dialog open={isDialogOpen} onClose={toggleDialog} aria-labelledby="edu-details-dialog-title">
-        <DialogTitle id="edu-details-dialog-title">
-          Education Details
-          <IconButton
-            aria-label="close"
-            onClick={toggleDialog}
-            sx={{
-              position: 'absolute',
-              right: theme.spacing(1),
-              top: theme.spacing(1),
-              color: theme.palette.grey[500],
-            }}
-          >
+      {eduForms.map((_, index) => (
+        <div key={index} className="mb-2">
+          <h4>Edu {index + 1}</h4>
+          <EducationDetailsCreateForm />
+          <IconButton onClick={() => removeEduForm(index)} color="secondary" aria-label="remove">
             <CloseIcon />
           </IconButton>
-        </DialogTitle>
-        <DialogContent dividers>
-          <EducationDetailsCreateForm />
-        </DialogContent>
-      </Dialog>
+        </div>
+      ))}
     </div>
   );
 };

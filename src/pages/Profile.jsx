@@ -1,18 +1,38 @@
 import React, { useState } from "react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Auth , Storage } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { FaEdit } from "react-icons/fa";
 import PersonalSection from "./Forms/PersonalSection";
 import PortfolioLinksSection from "./Forms/PortfolioLinkssection";
- import ResourcesSection from "./Forms/ResourcesSection"; 
- import EduDetailsSection from "./Forms/EduDetailsSection";
- import WorkExperienceSection from "./Forms/WorkExpSection";
- import ResumeSection from "./Forms/ResumeSection";
+import ResourcesSection from "./Forms/ResourcesSection";
+import EduDetailsSection from "./Forms/EduDetailsSection";
+import WorkExperienceSection from "./Forms/WorkExpSection";
+import ResumeSection from "./Forms/ResumeSection";
+import Modal from "../components/Modals/DeleteModal";
 
 const Profile = () => {
   const { user, signOut } = useAuthenticator();
   const [uploading, setUploading] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDeleteClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await Auth.deleteUser();
+      // Perform signout or redirect
+    } catch (error) {
+      console.error("Error deleting user account", error);
+    }
+    setIsModalOpen(false);
+  };
 
   // Function to handle file selection and uploading
   const handleFileChange = async (e) => {
@@ -36,13 +56,20 @@ const Profile = () => {
 
   // Function to handle the account deletion
   async function handleDeleteAccount() {
-    try {
-      // Delete the user's account
-      await Auth.deleteUser();
-      // Perform signout if needed or redirect to a goodbye page
-      signOut();
-    } catch (error) {
-      console.error("Error deleting user account", error);
+    // Ask user to confirm the deletion
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete your account? This action cannot be undone."
+    );
+
+    if (isConfirmed) {
+      try {
+        // Delete the user's account
+        await Auth.deleteUser();
+        // Perform signout if needed or redirect to a goodbye page
+        signOut();
+      } catch (error) {
+        console.error("Error deleting user account", error);
+      }
     }
   }
 
@@ -110,6 +137,11 @@ const Profile = () => {
             >
               Delete Account
             </button>
+            <Modal
+              isOpen={isModalOpen}
+              onClose={handleModalClose}
+              onConfirm={confirmDelete}
+            />
           </div>
         </div>
 
@@ -122,21 +154,21 @@ const Profile = () => {
 
           {/* Work Experience Section */}
           <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">Work Experience</h3>
+            {/* <h3 className="text-lg font-semibold mb-2">Work Experience</h3> */}
             <WorkExperienceSection />
             {/* Add button and functionality */}
           </div>
 
           {/* Education Section */}
           <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">Education Details</h3>
+            {/* <h3 className="text-lg font-semibold mb-2">Education Details</h3> */}
             <EduDetailsSection />
           </div>
 
           {/* Resume Upload */}
           <div className="mb-4">
             <h3 className="text-lg font-semibold mb-2">Resume</h3>
-            <ResourcesSection/>
+            <ResourcesSection />
             <ResumeSection />
           </div>
 
