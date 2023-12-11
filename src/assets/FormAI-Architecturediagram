@@ -1,0 +1,29 @@
+# FormAI - Architecture Diagram using mermaid.js
+
+graph LR
+    subgraph Frontend
+        Dashboard["Dashboard (ReactJS, JavaScript, Tailwind CSS, MaterialUI, AmplifyUI)"]
+        ChromeExt["Chrome Extension (JavaScript, HTML, CSS, ManifestV3)"]
+    end
+    
+    subgraph Backend
+        Amplify["AWS Amplify"]
+        Cognito["Cognito (Authentication)"]
+        AppSync["GraphQL API (AppSync)"]
+        S3["S3 (File Storage)"]
+        DynamoDB["DynamoDB (Database)"]
+    end
+    
+    Dashboard <-->|Data Flow| Amplify
+    ChromeExt <-->|Data Flow| Amplify
+    Amplify -->|Auth| Cognito
+    Amplify -->|API| AppSync
+    Amplify -->|Storage| S3
+    Amplify -->|Database| DynamoDB
+    
+    DynamoDB -->|Data Storage & Retrieval| Amplify
+    
+    style Frontend fill:#f9d5e5
+    style Backend fill:#e3eaa7
+    style DynamoDB fill:#b5e7a0
+    

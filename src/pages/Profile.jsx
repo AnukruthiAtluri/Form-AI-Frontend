@@ -9,6 +9,7 @@ import EduDetailsSection from "./Forms/EduDetailsSection";
 import WorkExperienceSection from "./Forms/WorkExpSection";
 import ResumeSection from "./Forms/ResumeSection";
 import Modal from "../components/Modals/DeleteModal";
+import SubscribeModal from "../components/Modals/SubscribeModal";
 
 const Profile = () => {
   const { user, signOut } = useAuthenticator();
@@ -18,6 +19,18 @@ const Profile = () => {
 
   const handleDeleteClick = () => {
     setIsModalOpen(true);
+  };
+  // State for handling modal visibility
+  const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
+
+  // Function to open the modal
+  const handleOpenSubscribeModal = () => {
+    setIsSubscribeModalOpen(true);
+  };
+
+  // Function to close the modal
+  const handleCloseSubscribeModal = () => {
+    setIsSubscribeModalOpen(false);
   };
 
   const handleModalClose = () => {
@@ -127,7 +140,10 @@ const Profile = () => {
 
           {/* Simplify+ */}
 
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+            onClick={handleOpenSubscribeModal} // Open modal on click
+          >
             Subscribe to FormAI+
           </button>
           <div>
@@ -181,6 +197,11 @@ const Profile = () => {
 
           {/* Skills Section */}
           {/* You can add Skills section here */}
+          {/* Subscribe Modal */}
+          <SubscribeModal
+            open={isSubscribeModalOpen}
+            onClose={handleCloseSubscribeModal}
+          />
         </div>
       </div>
     </div>

@@ -24,10 +24,27 @@ const Sidebar = () => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
     useStateContext();
 
-  const handleCloseSideBar = (link) => {
-    if (link === "Subscribe to FormAI+") {
+  const handleSubscribeModalOpen = () => {
+    setIsSubscribeModalOpen(true);
+    if (activeMenu && screenSize <= 900) {
+      setActiveMenu(false);
+    }
+  };
+
+  const handleLinkClick = (linkAction) => {
+    if (linkAction) {
+      linkAction();
+    }
+    if (activeMenu && screenSize <= 900) {
+      setActiveMenu(false);
+    }
+  };
+
+  // Function to handle sidebar link clicks
+  const handleCloseSideBar = (linkName) => {
+    if (linkName === "Subscribe to FormAI+") {
       setIsSubscribeModalOpen(true);
-    } else if (activeMenu && window.innerWidth <= 900) {
+    } else if (activeMenu && screenSize <= 900) {
       setActiveMenu(false);
     }
   };
@@ -77,39 +94,6 @@ const Sidebar = () => {
           name: "CVBuilder",
           icon: <MdEditDocument />,
         },
-        // {
-        //   name: "line",
-        //   icon: <AiOutlineStock />,
-        // },
-        // {
-        //   name: "area",
-        //   icon: <AiOutlineAreaChart />,
-        // },
-
-        // {
-        //   name: "bar",
-        //   icon: <AiOutlineBarChart />,
-        // },
-        // {
-        //   name: "pie",
-        //   icon: <FiPieChart />,
-        // },
-        // {
-        //   name: "financial",
-        //   icon: <RiStockLine />,
-        // },
-        // {
-        //   name: "color-mapping",
-        //   icon: <BsBarChart />,
-        // },
-        // {
-        //   name: "pyramid",
-        //   icon: <GiLouvrePyramid />,
-        // },
-        // {
-        //   name: "stacked",
-        //   icon: <AiOutlineBarChart />,
-        // },
       ],
     },
     {
@@ -123,27 +107,23 @@ const Sidebar = () => {
           name: "kanban",
           icon: <BsKanban />,
         },
-        // {
-        //   name: "editor",
-        //   icon: <FiEdit />,
-        // },
       ],
     },
     {
       title: "Extras",
       links: [
         {
-          name: "download-extension",
+          name: "Install Chrome Extension",
           icon: <MdOutlineExtension />,
-          desc: "Download Chrome Extension",
-          linkAction: () =>
-            window.open("https://chrome.google.com/webstore/", "_blank"), // Replace with your actual link
+          desc: "Install Chrome Extension",
+          action: () =>
+            window.open("https://chrome.google.com/webstore/", "_blank"),
         },
         {
           name: "Subscribe to FormAI+",
           icon: <FaUserPlus />,
           desc: "Upgrade to FormAI+",
-          //linkAction: handleUpgradePopup,
+          modalAction: true,
         },
       ],
     },
@@ -153,6 +133,7 @@ const Sidebar = () => {
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
       {activeMenu && (
         <>
+          {/* Sidebar Header */}
           <div className="flex justify-between items-center">
             <Link
               to="/"
@@ -172,31 +153,61 @@ const Sidebar = () => {
               </button>
             </TooltipComponent>
           </div>
-          <div className="mt-10 ">
+          {/* Sidebar Header Code */}
+          <div className="mt-10">
             {links.map((item) => (
               <div key={item.title}>
                 <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
                   {item.title}
                 </p>
-                {item.links.map((link) => (
-                  <NavLink
-                    to={`/${link.name}`}
-                    key={link.name}
-                    onClick={handleCloseSideBar}
-                    style={({ isActive }) => ({
-                      backgroundColor: isActive ? currentColor : "",
-                    })}
-                    className={({ isActive }) =>
-                      isActive ? activeLink : normalLink
-                    }
-                  >
-                    {link.icon}
-                    <span className="capitalize ">{link.name}</span>
-                  </NavLink>
-                ))}
+                {item.links.map((link) => {
+                  if (link.modalAction) {
+                    return (
+                      <div
+                        key={link.name}
+                        className={normalLink}
+                        onClick={handleSubscribeModalOpen}
+                      >
+                        {link.icon}
+                        <span className="capitalize">{link.name}</span>
+                      </div>
+                    );
+                  } else if (link.action) {
+                    return (
+                      <div
+                        key={link.name}
+                        className={normalLink}
+                        onClick={link.action}
+                      >
+                        {link.icon}
+                        <span className="capitalize">{link.name}</span>
+                      </div>
+                    );
+                  }
+                  return (
+                    <NavLink
+                      to={`/${link.name}`}
+                      key={link.name}
+                      onClick={() => handleCloseSideBar(link.name)}
+                      style={({ isActive }) => ({
+                        backgroundColor: isActive ? currentColor : "",
+                      })}
+                      className={({ isActive }) =>
+                        isActive ? activeLink : normalLink
+                      }
+                    >
+                      {link.icon}
+                      <span className="capitalize">{link.name}</span>
+                    </NavLink>
+                  );
+                })}
               </div>
             ))}
           </div>
+          <SubscribeModal
+            open={isSubscribeModalOpen}
+            onClose={() => setIsSubscribeModalOpen(false)}
+          />
         </>
       )}
     </div>

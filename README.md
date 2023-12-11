@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# Form-AI Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is part of the Form-AI suite, a comprehensive form management and autofill solution, bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run the following scripts:
 
 ### `npm start`
 
-Runs the app in the development mode.\
+Launches the application in development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
+Builds the application for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+See the [deployment section](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Project Overview
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Form-AI Frontend is designed to offer a seamless experience in managing forms, tracking submissions, and utilizing custom autofill functionalities. Integrated with AWS Amplify and GraphQL, it provides a robust backend and efficient data handling.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Key Features:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Interactive Dashboard
+- Custom Question & Answer Setup
+- Application Tracking, Sorting & Editing
+- Resume Builder
+- CV Builder
+- Calendar Integration
+- Kanban Task Organization
+- User Profile and Account Management
+- Substcribe to FormAI+ Modals
+- Links to Install Chrome Extension form the Chrome Store
+- Integrated Forms to input User data
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Tech Stack:
+
+- **Frontend**: ReactJs, JavaScript, Tailwind CSS, MaterialUI, AmplifyUI
+- **Backend & API**: AWS Amplify, AWS AppSync
+- **Cloud Services**: AWS Cognito, S3, Lambda, DynamoDB
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [React Documentation](https://reactjs.org/)
+- [AWS Amplify](https://aws.amazon.com/amplify/)
+- [Material UI](https://material-ui.com/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Getting Started
 
-### Code Splitting
+To get a local copy up and running, follow these simple steps:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Clone the repo: `git clone https://github.com/AnukruthiAtluri/Form-AI-Frontend.git`
+2. Install NPM packages: `npm install`
+3. Start the project: `npm start`
 
-### Analyzing the Bundle Size
+## Contribution
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+While this project is primarily developed for the Form-AI suite, contributions, feedback, and suggestions are welcome to enhance its capabilities and features.
 
-### Making a Progressive Web App
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Distributed under the MIT License. See `LICENSE` for more information.
 
-### Advanced Configuration
+## Contact
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+For any queries or further details, feel free to reach out at [Form-AI's GitHub repository](https://github.com/AnukruthiAtluri/Form-AI-Frontend).
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+© 2023 Form-AI Team. All Rights Reserved.

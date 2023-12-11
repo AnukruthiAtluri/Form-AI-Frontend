@@ -79,7 +79,7 @@ const Dashboard = () => {
     },
     {
       Icon: Extension,
-      title: "Download Chrome Extension",
+      title: "Install Chrome Extension",
       description:
         "Install the FormAI web extension to autofill your Applications, Forms.",
       link: "https://chrome.google.com/webstore",
